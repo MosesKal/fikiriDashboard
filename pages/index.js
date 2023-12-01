@@ -1,65 +1,75 @@
-import Head from 'next/head'
-import { Inter } from 'next/font/google'
-import favicon from "../public/assets/img/brand/favicon.png"
-import styles from '@/styles/Home.module.scss'
-import { Alert, Button, Col, Form, Row, Tab, Tabs } from 'react-bootstrap';
+import Head from "next/head";
+import { Inter } from "next/font/google";
+import favicon from "../public/assets/img/brand/favicon.png";
+import styles from "@/styles/Home.module.scss";
+import { Alert, Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
 import Link from "next/link";
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import Seo from '@/shared/layout-components/seo/seo'
-import { auth } from "../shared/firebase/firebase"
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Seo from "@/shared/layout-components/seo/seo";
+import { auth } from "../shared/firebase/firebase";
 
 export default function Home() {
-
   useEffect(() => {
     if (document.body) {
-      document.querySelector("body").classList.add("ltr", "error-page1", "bg-primary")
+      document
+        .querySelector("body")
+        .classList.add("ltr", "error-page1", "bg-primary");
     }
 
     return () => {
-      document.body.classList.remove("ltr", "error-page1", "bg-primary")
-    }
-  }, [])
-
+      document.body.classList.remove("ltr", "error-page1", "bg-primary");
+    };
+  }, []);
 
   // Firebase
   const [err, setError] = useState("");
   const [data, setData] = useState({
-    "email": "adminnextjs@gmail.com",
-    "password": "1234567890",
-  })
+    email: "adminnextjs@gmail.com",
+    password: "1234567890",
+  });
   const { email, password } = data;
   const changeHandler = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value })
+    setData({ ...data, [e.target.name]: e.target.value });
     setError("");
-  }
+  };
   let navigate = useRouter();
   const routeChange = () => {
     let path = `/components/dashboards/dashboard1`;
     navigate.push(path);
-  }
+  };
 
   const Login = (e) => {
     e.preventDefault();
-    auth.signInWithEmailAndPassword(email, password).then(
-      user => { console.log(user); routeChange() }).catch(err => { console.log(err); setError(err.message) })
-  }
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((user) => {
+        console.log(user);
+        routeChange();
+      })
+      .catch((err) => {
+        console.log(err);
+        setError(err.message);
+      });
+  };
 
   const ReactLogin = (e) => {
     console.log(data);
-    if (data.email == "adminnextjs@gmail.com" && data.password == "1234567890") {
-      routeChange()
-    }
-    else {
-      setError("The Auction details did not Match")
+    if (
+      data.email == "adminnextjs@gmail.com" &&
+      data.password == "1234567890"
+    ) {
+      routeChange();
+    } else {
+      setError("The Auction details did not Match");
       setData({
-        "email": "adminnextjs@gmail.com",
-        "password": "1234567890",
-      })
+        email: "adminnextjs@gmail.com",
+        password: "1234567890",
+      });
     }
-  }
+  };
 
-  const [key, setKey] = useState('firebase');
+  const [key, setKey] = useState("firebase");
 
   return (
     <>
@@ -70,17 +80,17 @@ export default function Home() {
         {/* <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet"></link> */}
       </Head>
       <Seo title={"Login"} />
-      <div className="square-box"> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> </div>
+      <div className="square-box">
+        {" "}
+        <div></div> <div></div> <div></div> <div></div> <div></div> <div></div>{" "}
+        <div></div> <div></div> <div></div> <div></div> <div></div> <div></div>{" "}
+        <div></div> <div></div> <div></div>{" "}
+      </div>
 
       <div className="page">
-        <div
-          className="page-single"
-
-        >
-
-
-
-          <Tabs className='justify-content-center'
+        <div className="page-single">
+          <Tabs
+            className="justify-content-center"
             id="controlled-tab-example"
             activeKey={key}
             onSelect={(k) => setKey(k)}
@@ -118,15 +128,17 @@ export default function Home() {
                               <div className="panel panel-primary">
                                 <div className="tab-menu-heading mb-2 border-bottom-0">
                                   <div className="tabs-menu1">
-                                    {err && <Alert variant="danger">{err}</Alert>}
-                                    <Form action="#" >
+                                    {err && (
+                                      <Alert variant="danger">{err}</Alert>
+                                    )}
+                                    <Form action="#">
                                       <Form.Group className="form-group">
                                         <Form.Label>Email</Form.Label>{" "}
                                         <Form.Control
                                           className="form-control"
                                           placeholder="Enter your email"
                                           type="text"
-                                          name='email'
+                                          name="email"
                                           value={email}
                                           onChange={changeHandler}
                                           required
@@ -138,13 +150,14 @@ export default function Home() {
                                           className="form-control"
                                           placeholder="Enter your password"
                                           type="password"
-                                          name='password'
+                                          name="password"
                                           value={password}
                                           onChange={changeHandler}
                                           required
                                         />
                                       </Form.Group>
-                                      <Button onClick={Login}
+                                      <Button
+                                        onClick={Login}
                                         variant=""
                                         className="btn btn-primary btn-block"
                                       >
@@ -213,7 +226,9 @@ export default function Home() {
                                 </p>
                                 <p>
                                   {`Don't`} have an account?{" "}
-                                  <Link href={`/signup`}>Create an Account</Link>
+                                  <Link href={`/signup`}>
+                                    Create an Account
+                                  </Link>
                                 </p>
                               </div>
                             </div>
@@ -258,14 +273,14 @@ export default function Home() {
                               <div className="panel panel-primary">
                                 <div className="tab-menu-heading mb-2 border-bottom-0">
                                   <div className="tabs-menu1">
-                                    <Form action="#" >
+                                    <Form action="#">
                                       <Form.Group className="form-group">
                                         <Form.Label>Email</Form.Label>{" "}
                                         <Form.Control
                                           className="form-control"
                                           placeholder="Enter your email"
                                           type="text"
-                                          name='email'
+                                          name="email"
                                           value={email}
                                           onChange={changeHandler}
                                           required
@@ -277,13 +292,14 @@ export default function Home() {
                                           className="form-control"
                                           placeholder="Enter your password"
                                           type="password"
-                                          name='password'
+                                          name="password"
                                           value={password}
                                           onChange={changeHandler}
                                           required
                                         />
                                       </Form.Group>
-                                      <Button onClick={ReactLogin}
+                                      <Button
+                                        onClick={ReactLogin}
                                         variant=""
                                         className="btn btn-primary btn-block"
                                       >
@@ -352,7 +368,11 @@ export default function Home() {
                                 </p>
                                 <p>
                                   {`Don't`} have an account?{" "}
-                                  <Link href={`/components/pages/authentication/sign-up/`}>Create an Account</Link>
+                                  <Link
+                                    href={`/components/pages/authentication/sign-up/`}
+                                  >
+                                    Create an Account
+                                  </Link>
                                 </p>
                               </div>
                             </div>
@@ -368,5 +388,5 @@ export default function Home() {
         </div>
       </div>
     </>
-  )
+  );
 }

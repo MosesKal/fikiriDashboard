@@ -1,11 +1,18 @@
-import React from 'react';
-import { Breadcrumb, Card, Carousel, Col, ProgressBar, Row } from 'react-bootstrap';
-import Link from "next/link"
-import Seo from '@/shared/layout-components/seo/seo';
+import React from "react";
+import {
+  Breadcrumb,
+  Card,
+  Carousel,
+  Col,
+  ProgressBar,
+  Row,
+} from "react-bootstrap";
+import Link from "next/link";
+import Seo from "@/shared/layout-components/seo/seo";
 
 const Widgets = () => (
   <div>
-      <Seo title={"Widgets"}/>
+    <Seo title={"Widgets"} />
 
     {/* <!-- breadcrumb --> */}
     <div className="breadcrumb-header justify-content-between">
@@ -2463,9 +2470,7 @@ const Widgets = () => (
               <div className="d-flex align-items-center item  border-bottom">
                 <div className="d-flex">
                   <img
-                    src={
-                      "../../assets/img/svgicons/chrome.svg"
-                    }
+                    src={"../../assets/img/svgicons/chrome.svg"}
                     alt="img"
                     className="ht-30 wd-30 me-2"
                   />
@@ -2528,9 +2533,7 @@ const Widgets = () => (
               <div className="d-flex align-items-center item  border-bottom">
                 <div className="d-flex">
                   <img
-                    src={
-                      "../../assets/img/svgicons/firefox.svg"
-                    }
+                    src={"../../assets/img/svgicons/firefox.svg"}
                     alt="img"
                     className="ht-30 wd-30 me-2"
                   />
@@ -2551,9 +2554,7 @@ const Widgets = () => (
               <div className="d-flex align-items-center item border-bottom">
                 <div className="d-flex">
                   <img
-                    src={
-                      "../../assets/img/svgicons/uc-browser.svg"
-                    }
+                    src={"../../assets/img/svgicons/uc-browser.svg"}
                     alt="img"
                     className="ht-30 wd-30 me-2"
                   />
@@ -2574,9 +2575,7 @@ const Widgets = () => (
               <div className="d-flex align-items-center item">
                 <div className="d-flex">
                   <img
-                    src={
-                      "../../assets/img/svgicons/safari.svg"
-                    }
+                    src={"../../assets/img/svgicons/safari.svg"}
                     alt="img"
                     className="ht-30 wd-30 me-2"
                   />
@@ -2608,6 +2607,6 @@ Widgets.propTypes = {};
 
 Widgets.defaultProps = {};
 
-Widgets.layout = "Contentlayout"
+Widgets.layout = "Contentlayout";
 
 export default Widgets;
