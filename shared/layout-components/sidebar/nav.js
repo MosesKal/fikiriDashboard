@@ -52,7 +52,7 @@ export const MENUITEMS = [
         active:false,
         children: [
           {
-            path: `/components/apps/cards`,
+            path: `/components/apps/users`,
             type: "link",
             active:false,
             selected:false,
@@ -79,7 +79,7 @@ export const MENUITEMS = [
         active:false,
         children: [
           {
-            path: `/components/elements/alerts`,
+            path: `/components/apps/curateurListe`,
             title: "Lister",
             type: "link",
             active:false,

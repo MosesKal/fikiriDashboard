@@ -253,32 +253,32 @@ export const Radialbar = {
 
 export const COLUMNS = [
   {
-    Header: "Purchase Date",
+    Header: "Id Projet",
     accessor: "PurchaseDate",
     className: "text-center ",
   },
   {
-    Header: "Client Name",
+    Header: "Solution",
     accessor: "ClientName",
     className: "text-center ",
   },
   {
-    Header: "Product ID",
+    Header: "Description",
     accessor: "ProductID",
     className: "text-center ",
   },
   {
-    Header: "Product",
+    Header: "Thematique",
     accessor: "Product",
     className: "text-center ",
   },
+  // {
+  //   Header: "Product Cost",
+  //   accessor: "ProductCost",
+  //   className: "text-center ",
+  // },
   {
-    Header: "Product Cost",
-    accessor: "ProductCost",
-    className: "text-center ",
-  },
-  {
-    Header: "Payment Mode",
+    Header: "Challengs",
     accessor: "PaymentMode",
     className: "text-center ",
   },
