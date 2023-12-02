@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Seo from "@/shared/layout-components/seo/seo";
 import { auth } from "../shared/firebase/firebase";
-import { useAuthContext } from "./contexts/authContext";
+// import { useAuthContext } from "./contexts/authContext";
 
 const apiUrl = "https://musanzi-wilfried.me/auth/login";
 
