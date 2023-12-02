@@ -6,15 +6,18 @@ const DataTablesCom = dynamic(
   { ssr: false }
 );
 
-const CurateurListe = () => (
+import { useAuthContext } from "@/pages/contexts/authContext";
+import {useRouter} from "next/router"
+
+const Thematique = () => (
   <>
     <Seo title={"Data Tables"} />
     <DataTablesCom />
   </>
 );
 
-CurateurListe.propTypes = {};
-CurateurListe.defaultProps = {};
-CurateurListe.layout = "Contentlayout";
+Thematique.propTypes = {};
+Thematique.defaultProps = {};
+Thematique.layout = "Contentlayout";
 
-export default CurateurListe;
+export default Thematique;

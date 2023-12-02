@@ -1,18 +1,20 @@
 import Head from "next/head";
-import { Inter } from "next/font/google";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import favicon from "../public/assets/img/brand/favicon.png";
-import styles from "@/styles/Home.module.scss";
-import { Alert, Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
+import axios from "./api/axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Seo from "@/shared/layout-components/seo/seo";
-import { auth } from "../shared/firebase/firebase";
-// import { useAuthContext } from "./contexts/authContext";
 
-const apiUrl = "https://musanzi-wilfried.me/auth/login";
+
+const LOGIN_URI = "/auth/login";
 
 export default function Home() {
+
+
   useEffect(() => {
     if (document.body) {
       document
@@ -25,13 +27,12 @@ export default function Home() {
     };
   }, []);
 
-  // Firebase
-
   const [err, setError] = useState("");
   const [data, setData] = useState({
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const { email, password } = data;
 
@@ -47,44 +48,29 @@ export default function Home() {
     navigate.push(path);
   };
 
-  const Login = (e) => {
+
+  const ReactLogin = async (e) => {
     e.preventDefault();
 
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then((user) => {
-        console.log(user);
-        routeChange();
-      })
-      .catch((err) => {
-        console.log(err);
-        setError(err.message);
-      });
-  };
+    try {
+      setIsLoading(true);
 
-  const ReactLogin = (e) => {
-    e.preventDefault();
+      const response = await axios.post(LOGIN_URI, JSON.stringify(data));
 
-    console.log(data);
-    fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
+      if (response.data.data.accessToken) {
+        toast.success("Connexion réussie ");
 
-    if (data.email == "BerryN@lunnovel.org" && data.password == "admin") {
-      routeChange();
-    } else {
-      setError("The Auction details did not Match");
-      setData({
-        email: "admin@admin.com",
-        password: "admin",
-      });
+        localStorage.setItem("ACCESS_TOKEN", response.data.data.accessToken);
+
+        setIsLoading(false);
+        setTimeout(() => {
+          routeChange();
+        }, 2000);
+      }
+    } catch (e) {
+      toast.error(e?.response?.data?.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -136,7 +122,7 @@ export default function Home() {
                               <div className="tabs-menu1">
                                 <Form action="#">
                                   <Form.Group className="form-group">
-                                    <Form.Label>Email</Form.Label>{" "}
+                                    <Form.Label>Adresse Mail</Form.Label>{" "}
                                     <Form.Control
                                       className="form-control"
                                       placeholder="Votre adresse email"
@@ -148,7 +134,7 @@ export default function Home() {
                                     />
                                   </Form.Group>
                                   <Form.Group className="form-group">
-                                    <Form.Label>Password</Form.Label>{" "}
+                                    <Form.Label>Mot de passe</Form.Label>{" "}
                                     <Form.Control
                                       className="form-control"
                                       placeholder="Entrez le mot de passe"
@@ -164,7 +150,9 @@ export default function Home() {
                                     variant=""
                                     className="btn btn-primary btn-block"
                                   >
-                                    Se connecter
+                                    {isLoading
+                                      ? "Connexion en cours..."
+                                      : "Se connecter"}
                                   </Button>
                                   <div className="mt-4 d-flex text-center justify-content-center mb-2">
                                     <Link
@@ -207,7 +195,6 @@ export default function Home() {
                                       type="button"
                                     >
                                       <span className="btn-inner--icon">
-                                        {" "}
                                         <i className="bx bxl-instagram tx-18 tx-prime"></i>{" "}
                                       </span>
                                     </Link>
@@ -238,6 +225,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </>
   );
 }

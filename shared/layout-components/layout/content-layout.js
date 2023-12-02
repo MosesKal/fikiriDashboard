@@ -7,10 +7,12 @@ import Rightside from "../right-sidebar/right-sidebar";
 import TabToTop from "../tab-to-top/tab-to-top";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { ContextProvider } from "@/pages/contexts/authContext";
 import favicon from "../../../public/assets/img/brand/favicon.png";
 const Header = dynamic(() => import("../header/header"), { ssr: false });
 const Switcher = dynamic(() => import("../switcher/switcher"), { ssr: false });
 const Sidebar = dynamic(() => import("../sidebar/sidebar"), { ssr: false });
+
 const Contentlayout = ({ children }) => {
   let firstAdd = () => {
     //The created store
@@ -55,29 +57,34 @@ const Contentlayout = ({ children }) => {
         <meta name="description" content="Spruha" />
         <link rel="icon" href={favicon.src} />
       </Head>
+
       <Provider store={store}>
-        <div className="horizontalMenucontainer">
-          <TabToTop />
-          <div className="page">
-            <div className="open">
-              <Header />
-              <Sidebar />
-            </div>
-            <div
-              className="main-content app-content"
-              onClick={() => {
-                responsiveSidebarclose();
-              }}
-            >
-              <div className="side-app">
-                <div className="main-container container-fluid">{children}</div>
+        <ContextProvider>
+          <div className="horizontalMenucontainer">
+            <TabToTop />
+            <div className="page">
+              <div className="open">
+                <Header />
+                <Sidebar />
               </div>
+              <div
+                className="main-content app-content"
+                onClick={() => {
+                  responsiveSidebarclose();
+                }}
+              >
+                <div className="side-app">
+                  <div className="main-container container-fluid">
+                    {children}
+                  </div>
+                </div>
+              </div>
+              <Rightside />
+              <Switcher />
+              <Footer />
             </div>
-            <Rightside />
-            <Switcher />
-            <Footer />
           </div>
-        </div>
+        </ContextProvider>
       </Provider>
     </>
   );

@@ -5,11 +5,17 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import Link from "next/link"
 import { useRouter } from "next/router";
 let history = [];
+import axios from "@/pages/api/axios";
+
 
 const Sidebar = () => {
+
   let location = useRouter();
   let { basePath } = useRouter()
   const [menuitems, setMenuitems] = useState(MENUITEMS);
+
+
+
   // initial loading
   useEffect(() => {
 
@@ -31,10 +37,12 @@ const Sidebar = () => {
 
   // location
   useEffect(() => {
+
     if (document.body.classList.contains('horizontal') && window.innerWidth >= 992) {
       clearMenuActive();
     }
   }, []);
+
 
   //  In Horizontal When we click the body it should we Closed using in useEfffect Refer line No:16
   function mainContentClickFn() {

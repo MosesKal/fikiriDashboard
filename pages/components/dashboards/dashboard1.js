@@ -1,26 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import dynamic from "next/dynamic";
 import Seo from "@/shared/layout-components/seo/seo";
+
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
+
+import { useRouter } from "next/router";
+
+import axios from "@/pages/api/axios";
+
 import {
   useTable,
   useSortBy,
   useGlobalFilter,
   usePagination,
 } from "react-table";
-import {
-  Breadcrumb,
-  Col,
-  Row,
-  Card,
-  Button,
-  ProgressBar,
-  Form,
-} from "react-bootstrap";
+
+import { Breadcrumb, Col, Row, Card, Button, Form } from "react-bootstrap";
 import Link from "next/link";
 import Select from "react-select";
+
 import * as Dashboarddata from "../../../shared/data/dashboards/dashboards1";
 import {
   COLUMNS,
@@ -28,7 +28,11 @@ import {
   GlobalFilter,
 } from "../../../shared/data/dashboards/dashboards1";
 
+import { useAuthContext } from "@/pages/contexts/authContext";
+
 const Dashboard = () => {
+  const { setIsLogged, storeAccount } = useAuthContext();
+
   const tableInstance = useTable(
     {
       columns: COLUMNS,
@@ -38,6 +42,8 @@ const Dashboard = () => {
     useSortBy,
     usePagination
   );
+
+  let navigate = useRouter();
 
   const FormSize = [
     { value: "5", label: "Show 5" },
@@ -64,9 +70,27 @@ const Dashboard = () => {
   } = tableInstance;
 
   const { globalFilter, pageIndex, pageSize } = state;
+  // const { isLogged } = useAuthContext();
+
+  useEffect(() => {
+    axios
+      .get("/auth/profile", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`,
+        },
+      })
+      .then((response) => {
+        setIsLogged(true);
+        storeAccount(response.data.data);
+      })
+      .catch(() => {
+        setIsLogged(false);
+        location.push("/");
+      });
+  }, []);
+
   return (
     <>
-      {/**Dashboard1*/}
       <Seo title={"Tableau de bord"} />
       <React.Fragment>
         <div className="breadcrumb-header justify-content-between">

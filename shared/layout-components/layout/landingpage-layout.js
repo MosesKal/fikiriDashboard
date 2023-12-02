@@ -1,19 +1,27 @@
-import React, { useEffect } from 'react'
-
+import React, { useEffect } from "react";
+import { ContextProvider } from "@/pages/contexts/authContext";
 
 const Landingpagelayout = ({ children }) => {
-  const Add =()=>{
-  document.querySelector("body").classList.add("app", "sidebar-mini", "ltr", "landing-page", "horizontalmenu")
-  }
+  const Add = () => {
+    document
+      .querySelector("body")
+      .classList.add(
+        "app",
+        "sidebar-mini",
+        "ltr",
+        "landing-page",
+        "horizontalmenu"
+      );
+  };
   useEffect(() => {
-    Add()
-  },[])
+    Add();
+  }, []);
 
   return (
-    <div>
-      { children }
-      </div>
-  )
-}
+    <ContextProvider>
+      <div>{children}</div>
+    </ContextProvider>
+  );
+};
 
-export default Landingpagelayout
+export default Landingpagelayout;

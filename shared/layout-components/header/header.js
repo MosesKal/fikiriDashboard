@@ -14,14 +14,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Delete } from "../../redux/actions/action";
 import ProductService from "../../services/ProductService";
 import { useRouter } from "next/router";
+import { useAuthContext } from "@/pages/contexts/authContext";
 
 export default function Header() {
 
-
   let { basePath } = useRouter();
 
-
   const [Lang, setLang] = React.useState(false);
+  const {account} = useAuthContext();
 
 
   function Fullscreen() {
@@ -91,7 +91,6 @@ export default function Header() {
   // const { id } = useParams();
   const { id } = "";
 
-  // console.log(getdata);
 
   const compare = () => {
     let comparedata = getdata.filter((e) => {
@@ -127,6 +126,8 @@ export default function Header() {
     let path = `/`;
     navigate(path);
   };
+
+
   return (
     <Navbar className="main-header side-header sticky nav nav-item">
       <div className="main-container container-fluid">
@@ -319,10 +320,11 @@ export default function Header() {
                         </div>
                         <div className="ms-3 my-auto">
                           <h6 className="tx-15 font-weight-semibold mb-0">
-                            Berry Numbi
+                            {account ? `${account.name}` : ""}
                           </h6>
                           <span className="dropdown-title-text subtext op-6  tx-12">
-                            Curateur
+                          {account ? `${account.email}` : ""}
+
                           </span>
                         </div>
                       </div>
