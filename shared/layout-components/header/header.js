@@ -16,8 +16,14 @@ import ProductService from "../../services/ProductService";
 import { useRouter } from "next/router";
 
 export default function Header() {
+
+
   let { basePath } = useRouter();
+
+
   const [Lang, setLang] = React.useState(false);
+
+
   function Fullscreen() {
     if (
       (document.fullScreenElement && document.fullScreenElement === null) ||
@@ -66,6 +72,7 @@ export default function Header() {
     document.querySelector(".demo_changer").style.right = "0px";
   };
   const [price, setPrice] = React.useState(0);
+  
   // console.log(price);
 
   let getdata = useSelector((state) => state.cartreducer.carts);
@@ -292,7 +299,7 @@ export default function Header() {
                       alt=""
                       src={`${
                         process.env.NODE_ENV === "production" ? basePath : ""
-                      }/assets/img/faces/2.jpg`}
+                      }/assets/img/faces/2.png`}
                       className=""
                     />
                   </Dropdown.Toggle>
@@ -306,7 +313,7 @@ export default function Header() {
                               process.env.NODE_ENV === "production"
                                 ? basePath
                                 : ""
-                            }/assets/img/faces/2.jpg`}
+                            }/assets/img/faces/2.png`}
                             className=""
                           />
                         </div>
