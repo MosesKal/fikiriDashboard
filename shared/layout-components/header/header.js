@@ -1,14 +1,22 @@
 import React from "react";
-import { Navbar, Dropdown, Button, Form,Col,Row,Modal } from "react-bootstrap";
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import Link from "next/link"
-import { useDispatch, useSelector } from 'react-redux';
-import { Delete } from '../../redux/actions/action';
-import ProductService from '../../services/ProductService';
+import {
+  Navbar,
+  Dropdown,
+  Button,
+  Form,
+  Col,
+  Row,
+  Modal,
+} from "react-bootstrap";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { Delete } from "../../redux/actions/action";
+import ProductService from "../../services/ProductService";
 import { useRouter } from "next/router";
 
 export default function Header() {
-  let { basePath } = useRouter()
+  let { basePath } = useRouter();
   const [Lang, setLang] = React.useState(false);
   function Fullscreen() {
     if (
@@ -34,7 +42,6 @@ export default function Header() {
       }
     }
   }
-
 
   //leftsidemenu
   const openCloseSidebar = () => {
@@ -63,7 +70,6 @@ export default function Header() {
 
   let getdata = useSelector((state) => state.cartreducer.carts);
 
-  
   const dispatch = useDispatch();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -72,7 +78,6 @@ export default function Header() {
     setAnchorEl(event.currentTarget);
     // console.log(open)
   };
-
 
   const [Data, setData] = React.useState([]);
 
@@ -83,52 +88,58 @@ export default function Header() {
 
   const compare = () => {
     let comparedata = getdata.filter((e) => {
-      console.log(e, id)
-      return e.id === id
+      console.log(e, id);
+      return e.id === id;
     });
     setData(comparedata);
-  }
-
-  React.useEffect(() => {
-    compare();
-    // eslint-disable-next-line 
-  }, [id])
-  const ondelete = (id) => {
-    dispatch(Delete(id))
-  }
-
-
-  function total () {
-    let price = 0;
-    getdata.map((ele) => {
-      price = ele.price * ele.qnty + price
-      return price;
-    });
-    setPrice(price);
   };
 
   React.useEffect(() => {
-    total(); 
-  })
-  // let navigate = useNavigate(); 
-  let navigate  
-  const routeChange = () =>{ 
-    let path = `/`; 
-    navigate(path);
+    compare();
+    // eslint-disable-next-line
+  }, [id]);
+  const ondelete = (id) => {
+    dispatch(Delete(id));
+  };
+
+  function total() {
+    let price = 0;
+    getdata.map((ele) => {
+      price = ele.price * ele.qnty + price;
+      return price;
+    });
+    setPrice(price);
   }
+
+  React.useEffect(() => {
+    total();
+  });
+  // let navigate = useNavigate();
+  let navigate;
+  const routeChange = () => {
+    let path = `/`;
+    navigate(path);
+  };
   return (
     <Navbar className="main-header side-header sticky nav nav-item">
       <div className="main-container container-fluid">
         <div className="main-header-left ">
           <div className="responsive-logo">
-            <Link href={`/components/dashboards/dashboard1/`} className="header-logo">
+            <Link
+              href={`/components/dashboards/dashboard1/`}
+              className="header-logo"
+            >
               <img
-                src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/brand/logo.png`}
+                src={`${
+                  process.env.NODE_ENV === "production" ? basePath : ""
+                }/assets/img/brand/logo.png`}
                 className="mobile-logo logo-1"
                 alt="logo"
               />
               <img
-                src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/brand/logo-white.png`}
+                src={`${
+                  process.env.NODE_ENV === "production" ? basePath : ""
+                }/assets/img/brand/logo-white.png`}
                 className="mobile-logo dark-logo-1"
                 alt="logo"
               />
@@ -149,12 +160,16 @@ export default function Header() {
           <div className="logo-horizontal">
             <Link href={`/dashboard/dashboard-1`} className="header-logo">
               <img
-                src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/brand/logo.png`}
+                src={`${
+                  process.env.NODE_ENV === "production" ? basePath : ""
+                }/assets/img/brand/logo.png`}
                 className="mobile-logo logo-1"
                 alt="logo"
               />
               <img
-                src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/brand/logo-white.png`}
+                src={`${
+                  process.env.NODE_ENV === "production" ? basePath : ""
+                }/assets/img/brand/logo-white.png`}
                 className="mobile-logo dark-logo-1"
                 alt="logo"
               />
@@ -182,303 +197,12 @@ export default function Header() {
             <Navbar.Collapse className="collapse" id="navbarSupportedContent-4">
               <ul className="nav nav-item header-icons navbar-nav-right ">
                 <li className="dropdown nav-item">
-                <>
-            <Link
-                className="new nav-link"
-                data-bs-target="#country-selector"
-                data-bs-toggle="modal"
-                href="#!"
-                onClick={() => setLang(true)}
-            >
-                <svg
-                    className="header-icon-svgs"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                >
-                    <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm7.931 9h-2.764a14.67 14.67 0 0 0-1.792-6.243A8.013 8.013 0 0 1 19.931 11zM12.53 4.027c1.035 1.364 2.427 3.78 2.627 6.973H9.03c.139-2.596.994-5.028 2.451-6.974.172-.01.344-.026.519-.026.179 0 .354.016.53.027zm-3.842.7C7.704 6.618 7.136 8.762 7.03 11H4.069a8.013 8.013 0 0 1 4.619-6.273zM4.069 13h2.974c.136 2.379.665 4.478 1.556 6.23A8.01 8.01 0 0 1 4.069 13zm7.381 6.973C10.049 18.275 9.222 15.896 9.041 13h6.113c-.208 2.773-1.117 5.196-2.603 6.972-.182.012-.364.028-.551.028-.186 0-.367-.016-.55-.027zm4.011-.772c.955-1.794 1.538-3.901 1.691-6.201h2.778a8.005 8.005 0 0 1-4.469 6.201z" />
-                </svg>
-            </Link>
-            <Modal
-                show={Lang}
-                onHide={() => setLang(false)}
-                centered="true"
-                id="country-selector"
-            >
-                <Modal.Header>
-                    <h6 className="modal-title">Choose Country</h6>
-                    <Button variant=""
-                        type="button"
-                        onClick={() => setLang(false)}
-                    >
-                        <span aria-hidden="true" className="text-dark">X</span>
-                    </Button>
-                </Modal.Header>
-                <Modal.Body>
-                    <Row as="ul" className=" p-3">
-                        <Col lg={6} as="li" className="mb-2">
-                            <Link
-                                href="#!"
-                                className="btn btn-country btn-lg btn-block active"
-                            >
-                                <span className="country-selector">
-                                    <img
-                                        alt=""
-                                        src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/flags/us_flag.jpg`}
-                                        className="me-3 language"
-                                    />
-                                </span>
-                                Usa{" "}
-                            </Link>{" "}
-                        </Col>{" "}
-                        <Col lg={6} as="li" className="mb-2 mb-2">
-                            {" "}
-                            <Link href="#!" className="btn btn-country btn-lg btn-block">
-                                {" "}
-                                <span className="country-selector">
-                                    <img
-                                        alt=""
-                                        src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/flags/italy_flag.jpg`}
-                                        className="me-3 language"
-                                    />
-                                </span>
-                                Italy{" "}
-                            </Link>{" "}
-                        </Col>{" "}
-                        <Col lg={6} as="li" className="mb-2">
-                            {" "}
-                            <Link href="#!" className="btn btn-country btn-lg btn-block">
-                                {" "}
-                                <span className="country-selector">
-                                    <img
-                                        alt=""
-                                        src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/flags/spain_flag.jpg`}
-                                        className="me-3 language"
-                                    />
-                                </span>
-                                Spain{" "}
-                            </Link>{" "}
-                        </Col>{" "}
-                        <Col lg={6} as="li" className="mb-2">
-                            {" "}
-                            <Link href="#!" className="btn btn-country btn-lg btn-block">
-                                {" "}
-                                <span className="country-selector">
-                                    <img
-                                        alt=""
-                                        src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/flags/india_flag.jpg`}
-                                        className="me-3 language"
-                                    />
-                                </span>
-                                India{" "}
-                            </Link>{" "}
-                        </Col>{" "}
-                        <Col lg={6} as="li" className="mb-2">
-                            {" "}
-                            <Link href="#!" className="btn btn-country btn-lg btn-block">
-                                {" "}
-                                <span className="country-selector">
-                                    <img
-                                        alt=""
-                                        src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/flags/french_flag.jpg`}
-                                        className="me-3 language"
-                                    />
-                                </span>
-                                France{" "}
-                            </Link>{" "}
-                        </Col>{" "}
-                        <Col lg={6} as="li" className="mb-2">
-                            {" "}
-                            <Link href="#!" className="btn btn-country btn-lg btn-block">
-                                {" "}
-                                <span className="country-selector">
-                                    <img
-                                        alt=""
-                                        src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/flags/mexico.jpg`}
-                                        className="me-3 language"
-                                    />
-                                </span>
-                                Mexico{" "}
-                            </Link>{" "}
-                        </Col>{" "}
-                        <Col lg={6} as="li" className="mb-2">
-                            {" "}
-                            <Link href="#!" className="btn btn-country btn-lg btn-block">
-                                {" "}
-                                <span className="country-selector">
-                                    <img
-                                        alt=""
-                                        src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/flags/singapore.jpg`}
-                                        className="me-3 language"
-                                    />
-                                </span>
-                                Singapore{" "}
-                            </Link>{" "}
-                        </Col>{" "}
-                        <Col lg={6} as="li" className="mb-2">
-                            {" "}
-                            <Link href="#!" className="btn btn-country btn-lg btn-block">
-                                {" "}
-                                <span className="country-selector">
-                                    <img
-                                        alt=""
-                                        src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/flags/poland.jpg`}
-                                        className="me-3 language"
-                                    />
-                                </span>
-                                Poland{" "}
-                            </Link>{" "}
-                        </Col>{" "}
-                        <Col lg={6} as="li" className="mb-2">
-                            {" "}
-                            <Link href="#!" className="btn btn-country btn-lg btn-block">
-                                {" "}
-                                <span className="country-selector">
-                                    <img
-                                        alt=""
-                                        src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/flags/austria.jpg`}
-                                        className="me-3 language"
-                                    />
-                                </span>
-                                Austria{" "}
-                            </Link>{" "}
-                        </Col>{" "}
-                        <Col lg={6} as="li" className="mb-2">
-                            {" "}
-                            <Link href="#!" className="btn btn-country btn-lg btn-block">
-                                {" "}
-                                <span className="country-selector">
-                                    <img
-                                        alt=""
-                                        src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/flags/russia_flag.jpg`}
-                                        className="me-3 language"
-                                    />
-                                </span>
-                                Russia{" "}
-                            </Link>{" "}
-                        </Col>{" "}
-                        <Col lg={6} as="li" className="mb-2">
-                            {" "}
-                            <Link href="#!" className="btn btn-country btn-lg btn-block">
-                                {" "}
-                                <span className="country-selector">
-                                    <img
-                                        alt=""
-                                        src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/flags/germany_flag.jpg`}
-                                        className="me-3 language"
-                                    />
-                                </span>
-                                Germany{" "}
-                            </Link>{" "}
-                        </Col>{" "}
-                        <Col lg={6} as="li" className="mb-2">
-                            {" "}
-                            <Link href="#!" className="btn btn-country btn-lg btn-block">
-                                {" "}
-                                <span className="country-selector">
-                                    <img
-                                        alt=""
-                                        src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/flags/argentina.jpg`}
-                                        className="me-3 language"
-                                    />
-                                </span>
-                                Argentina{" "}
-                            </Link>{" "}
-                        </Col>{" "}
-                        <Col lg={6} as="li" className="mb-2">
-                            {" "}
-                            <Link href="#!" className="btn btn-country btn-lg btn-block">
-                                {" "}
-                                <span className="country-selector">
-                                    <img
-                                        alt=""
-                                        src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/flags/brazil.jpg`}
-                                        className="me-3 language"
-                                    />
-                                </span>
-                                Brazil{" "}
-                            </Link>{" "}
-                        </Col>{" "}
-                        <Col lg={6} as="li" className="mb-2">
-                            {" "}
-                            <Link href="#!" className="btn btn-country btn-lg btn-block">
-                                {" "}
-                                <span className="country-selector">
-                                    <img
-                                        alt=""
-                                        src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/flags/uae.jpg`}
-                                        className="me-3 language"
-                                    />
-                                </span>
-                                U.A.E{" "}
-                            </Link>{" "}
-                        </Col>{" "}
-                        <Col lg={6} as="li" className="mb-2">
-                            {" "}
-                            <Link href="#!" className="btn btn-country btn-lg btn-block">
-                                {" "}
-                                <span className="country-selector">
-                                    <img
-                                        alt=""
-                                        src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/flags/china.jpg`}
-                                        className="me-3 language"
-                                    />
-                                </span>
-                                China{" "}
-                            </Link>{" "}
-                        </Col>{" "}
-                        <Col lg={6} as="li" className="mb-2">
-                            {" "}
-                            <Link href="#!" className="btn btn-country btn-lg btn-block">
-                                {" "}
-                                <span className="country-selector">
-                                    <img
-                                        alt=""
-                                        src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/flags/uk.jpg`}
-                                        className="me-3 language"
-                                    />
-                                </span>
-                                U.K{" "}
-                            </Link>{" "}
-                        </Col>{" "}
-                        <Col lg={6} as="li" className="mb-2">
-                            {" "}
-                            <Link href="#!" className="btn btn-country btn-lg btn-block">
-                                {" "}
-                                <span className="country-selector">
-                                    <img
-                                        alt=""
-                                        src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/flags/malaysia.jpg`}
-                                        className="me-3 language"
-                                    />
-                                </span>
-                                Malaysia{" "}
-                            </Link>{" "}
-                        </Col>{" "}
-                        <Col lg={6} as="li" className="mb-2">
-                            {" "}
-                            <Link href="#!" className="btn btn-country btn-lg btn-block">
-                                {" "}
-                                <span className="country-selector">
-                                    <img
-                                        alt=""
-                                        src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/flags/canada.jpg`}
-                                        className="me-3 language"
-                                    />
-                                </span>
-                                Canada{" "}
-                            </Link>{" "}
-                        </Col>{" "}
-                    </Row>
-                </Modal.Body>
-            </Modal>
-        </>
-                </li>
-                <li className="dropdown nav-item">
                   <a
                     className="new nav-link theme-layout nav-link-bg layout-setting "
-                    onClick={()=>{Darkmode()}}>
+                    onClick={() => {
+                      Darkmode();
+                    }}
+                  >
                     <span className="dark-layout">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -502,541 +226,7 @@ export default function Header() {
                       </svg>
                     </span>
                   </a>
-                </li>
-                <Dropdown className=" nav-item main-header-notification d-flex">
-                  <Dropdown.Toggle className="new nav-link" href="#!" variant="">
-                    <>
-                      {
-                        getdata.length ?
-                          <>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="header-icon-svgs"
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                            >
-                              <path d="M21.822 7.431A1 1 0 0 0 21 7H7.333L6.179 4.23A1.994 1.994 0 0 0 4.333 3H2v2h2.333l4.744 11.385A1 1 0 0 0 10 17h8c.417 0 .79-.259.937-.648l3-8a1 1 0 0 0-.115-.921zM17.307 15h-6.64l-2.5-6h11.39l-2.25 6z" />
-                              <circle cx="10.5" cy="19.5" r="1.5" />
-                              <circle cx="17.5" cy="19.5" r="1.5" />
-                            </svg>
-                            <span className="badge bg-warning header-badge" onClick={handleClick} >{getdata.length}</span>
-                          </> : <>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="header-icon-svgs"
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                            >
-                              <path d="M21.822 7.431A1 1 0 0 0 21 7H7.333L6.179 4.23A1.994 1.994 0 0 0 4.333 3H2v2h2.333l4.744 11.385A1 1 0 0 0 10 17h8c.417 0 .79-.259.937-.648l3-8a1 1 0 0 0-.115-.921zM17.307 15h-6.64l-2.5-6h11.39l-2.25 6z" />
-                              <circle cx="10.5" cy="19.5" r="1.5" />
-                              <circle cx="17.5" cy="19.5" r="1.5" />
-                            </svg>
-                            <span className="badge bg-warning header-badge">7</span>
-                          </>
-                      }
-                    </>
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    <div className="menu-header-content text-start border-bottom">
-                      <div className="d-flex">
-                        <h6 className="dropdown-title mb-1 tx-15 font-weight-semibold">
-                          Shopping Cart
-                        </h6>
-                        <span className="badge badge-pill bg-indigo ms-auto my-auto float-end">
-                          {
-                            getdata.length ? <>Items ({getdata.length})</> : <>Items (07)</>
-                          }
-                        </span>
-                      </div>
-                    </div>
-                    <div className="main-cart-list cart-scroll">
-                      {
-                        getdata.length ?
-                          <div>
-                            <PerfectScrollbar style={{ height: "200px" }}>
-                              {
-                                getdata.map((item) => {
-                                  return (
-                                    <React.Fragment key={item.id}>
-
-                                      <div as="dropdown-item" open={open} onClick={handleClick} className="dropdown-item d-flex border-bottom main-cart-item">
-                                        {/* <Link href={`/components/pages/e-commerce/product-details/`}> */}
-                                        <Link href={`/components/pages/e-commerce/product-details/`} open={open} onClick={ProductService.getidfronShop(item.id)}>
-                                          <img src={(item.src)} className="drop-img cover-image" alt="" />
-                                        </Link>
-                                        <div className="ms-3 text-start">
-                                          <p className="mb-1 text-muted tx-13">{item.name}</p>
-                                          <span className="text-dark tx-semibold tx-12">$ : {item.price}</span>
-                                          <p>Quantity : {item.qnty}</p>
-                                        </div>
-                                        <div className="ms-auto my-auto">
-                                          <div className="" onClick={() => ondelete(item.id)}>
-                                            <i className="fe fe-trash-2 text-end text-danger"></i>
-                                          </div>
-                                        </div>
-
-                                      </div>
-
-                                    </React.Fragment>
-                                  )
-                                })
-                              }
-                            </PerfectScrollbar>
-                          </div>
-                          :
-                         <><Link
-                          className="d-flex border-bottom  main-cart-item dropdown-item"
-                          href={`/components/pages/e-commerce/product-details/`}
-                        >
-
-                          <img
-                            className="drop-img cover-image"
-                            src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/ecommerce/05.jpg`}
-                            alt=""
-                          />
-                          <div className="ms-3 text-start">
-                            <h5 className="mb-1 text-muted tx-13">
-                              Lence Camera
-                            </h5>
-                            <div className="text-dark tx-semibold tx-12">
-                              1 * $ 189.00
-                            </div>
-                          </div>
-
-                          <div className="ms-auto my-auto">
-                            <div className="">
-                              <i className="fe fe-trash-2 text-end text-danger"></i>
-                            </div>
-                          </div>
-                        </Link>
-                          <Link
-                            className="d-flex border-bottom main-cart-item dropdown-item" 
-                            href={`/components/pages/e-commerce/product-details/`}
-                          >
-
-                            <img
-                              alt=""
-                              className="drop-img cover-image"
-                              src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/ecommerce/02.jpg`}
-                            />
-                            <div className="ms-3 text-start">
-                              <h5 className="mb-1 text-muted tx-13">
-                                White Ear Buds
-                              </h5>
-                              <div className="text-dark tx-semibold tx-12">
-                                3 * $ 59.00
-                              </div>
-                            </div>
-
-
-                            <div className="ms-auto my-auto">
-                              <div className="">
-                                <i className="fe fe-trash-2 text-end text-danger"></i>
-                              </div>
-                            </div>
-                          </Link>
-                          <Link
-                            className="d-flex border-bottom main-cart-item dropdown-item"
-                            href={`/components/pages/e-commerce/product-details/`}
-                          >
-
-                            <img
-                              alt=""
-                              className="drop-img cover-image"
-                              src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/ecommerce/12.jpg`}
-                            />
-                            <div className="ms-3 text-start">
-                              <h5 className="mb-1 text-muted tx-13">
-                                Branded Black Headset
-                              </h5>
-                              <div className="text-dark tx-semibold tx-12">
-                                2 * $ 39.99
-                              </div>
-                            </div>
-                            <div className="ms-auto my-auto">
-                              <div className="">
-                                <i className="fe fe-trash-2 text-end text-danger"></i>
-                              </div>
-                            </div>
-                          </Link>
-                          <Link
-                            className="d-flex border-bottom main-cart-item dropdown-item"
-                            href={`/components/pages/e-commerce/product-details/`}
-                          >
-
-                            <img
-                              alt=""
-                              className="drop-img cover-image"
-                              src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/ecommerce/06.jpg`}
-                            />
-                            <div className="ms-3 text-start">
-                              <h5 className="mb-1 text-muted tx-13">
-                                Glass Decor Item
-                              </h5>
-                              <div className="text-dark tx-semibold tx-12">
-                                5 * $ 5.99
-                              </div>
-                            </div>
-
-                            <div className="ms-auto my-auto">
-                              <div className="">
-                                <i className="fe fe-trash-2 text-end text-danger"></i>
-                              </div>
-                            </div>
-                          </Link>
-                          <Link
-                            className="d-flex border-bottom main-cart-item dropdown-item"
-                            href={`/components/pages/e-commerce/product-details/`}
-                          >
-
-                            <img
-                              className="drop-img cover-image"
-                              src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/ecommerce/04.jpg`}
-                              alt=""
-                            />
-
-                            <div className="ms-3 text-start">
-                              <h5 className="mb-1 text-muted tx-13">
-                                Pink Teddy Bear
-                              </h5>
-                              <div className="text-dark tx-semibold tx-12">
-                                1 * $ 10.00
-                              </div>
-                            </div>
-                            <div className="ms-auto my-auto">
-                              <div className="">
-                                <i className="fe fe-trash-2 text-end text-danger"></i>
-                              </div>
-                            </div>
-                          </Link> </>
-                      }
-                    </div>
-                    <div className="dropdown-footer text-start">
-                      <Link
-                        className="btn btn-primary btn-sm btn-w-md"
-                        href={`/components/pages/e-commerce/checkout/`}
-                      >
-                        Checkout
-                      </Link>
-                      <span className="float-end mt-1 tx-semibold">
-                        {getdata.length ? <>Sub Total: $ {price}</> : <> Sub Total : $ 00.00</>}
-                      </span>
-                    </div>
-                  </Dropdown.Menu>
-                </Dropdown>
-                <Dropdown className="dropdown nav-item  main-header-message ">
-                  <Dropdown.Toggle className="new nav-link" href="#!" variant="">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="header-icon-svgs"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M20 4H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zm0 2v.511l-8 6.223-8-6.222V6h16zM4 18V9.044l7.386 5.745a.994.994 0 0 0 1.228 0L20 9.044 20.002 18H4z" />
-                    </svg>
-                    <span className="badge bg-secondary header-badge">5</span>
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu className="slid1">
-                    <div className="menu-header-content text-start border-bottom">
-                      <div className="d-flex">
-                        <h6 className="dropdown-title mb-1 tx-15 font-weight-semibold">
-                          Messages
-                        </h6>
-                        <span className="badge badge-pill badge-warning ms-auto my-auto float-end">
-                          Mark All Read
-                        </span>
-                      </div>
-                      <p className="dropdown-title-text subtext mb-0 op-6 pb-0 tx-12 ">
-                        You have 4 unread messages
-                      </p>
-                    </div>
-                    <PerfectScrollbar style={{ height: 280 }}>
-                      <div className="main-message-list chat-scroll">
-                        <Link
-                          href={`/components/pages/mail/chat/`}
-                          className="dropdown-item d-flex border-bottom dropdown-item"
-                        >
-                          <img
-                            className="  drop-img  cover-image  "
-                            alt=""
-                            src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/faces/3.jpg`}
-                          />
-                          <span className="avatar-status bg-teal"></span>
-
-                          <div className="wd-90p">
-                            <div className="d-flex">
-                              <h5 className="mb-0 name">Teri Dactyl</h5>
-                            </div>
-                            <p className="mb-0 desc">
-                              {`I'm sorry but i'm `}not sure how to help you with
-                              that......
-                            </p>
-                            <p className="time mb-0 text-start float-start ms-2 mt-2">
-                              Mar 15 3:55 PM
-                            </p>
-                          </div>
-                        </Link>
-                        <Link
-                          href={`/components/pages/mail/chat/`}
-                          className="dropdown-item d-flex border-bottom"
-                        >
-                          <img
-                            className="drop-img cover-image"
-                            alt=""
-                            src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/faces/2.jpg`}
-                          />
-                          <span className="avatar-status bg-teal"></span>
-
-                          <div className="wd-90p">
-                            <div className="d-flex">
-                              <h5 className="mb-0 name">Allie Grater</h5>
-                            </div>
-                            <p className="mb-0 desc">
-                              All set ! Now, time to get to you now......
-                            </p>
-                            <p className="time mb-0 text-start float-start ms-2 mt-2">
-                              Mar 06 01:12 AM
-                            </p>
-                          </div>
-                        </Link>
-                        <Link
-                          href={`/components/pages/mail/chat/`}
-                          className="dropdown-item d-flex border-bottom"
-                        >
-                          <img
-                            className="drop-img cover-image"
-                            alt=""
-                            src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/faces/9.jpg`}
-                          />
-                          <span className="avatar-status bg-teal"></span>
-
-                          <div className="wd-90p">
-                            <div className="d-flex">
-                              <h5 className="mb-0 name">Aida Bugg</h5>
-                            </div>
-                            <p className="mb-0 desc">
-                              Are you ready to pickup your Delivery...
-                            </p>
-                            <p className="time mb-0 text-start float-start ms-2 mt-2">
-                              Feb 25 10:35 AM
-                            </p>
-                          </div>
-                        </Link>
-                        <Link
-                          href={`/components/pages/mail/chat/`}
-                          className="dropdown-item d-flex border-bottom"
-                        >
-                          <img
-                            className="drop-img cover-image"
-                            alt=""
-                            src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/faces/12.jpg`}
-                          />
-                          <span className="avatar-status bg-teal"></span>
-                          <div className="wd-90p">
-                            <div className="d-flex">
-                              <h5 className="mb-0 name">John Quil</h5>
-                            </div>
-                            <p className="mb-0 desc">
-                              Here are some products ...
-                            </p>
-                            <p className="time mb-0 text-start float-start ms-2 mt-2">
-                              Feb 12 05:12 PM
-                            </p>
-                          </div>
-                        </Link>
-                        <Link
-                          href={`/components/pages/mail/chat/`}
-                          className="dropdown-item d-flex border-bottom"
-                        >
-                          <img
-                            className="drop-img cover-image"
-                            alt=""
-                            src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/faces/5.jpg`}
-                          />
-                          <span className="avatar-status bg-teal"></span>
-
-                          <div className="wd-90p">
-                            <div className="d-flex">
-                              <h5 className="mb-0 name">Liz Erd</h5>
-                            </div>
-                            <p className="mb-0 desc">
-                              {`I'm sorry but i'm `}not sure how...
-                            </p>
-                            <p className="time mb-0 text-start float-start ms-2 mt-2">
-                              Jan 29 03:16 PM
-                            </p>
-                          </div>
-                        </Link>
-                      </div>
-                    </PerfectScrollbar>
-                    <div className="text-center dropdown-footer">
-                      <Link
-                        className="btn btn-primary btn-sm btn-block text-center "
-                        href={`/components/pages/mail/chat/`}
-                      >
-                        VIEW ALL
-                      </Link>
-                    </div>
-                  </Dropdown.Menu>
-                </Dropdown>
-                <Dropdown className=" nav-item main-header-notification d-flex">
-                  <Dropdown.Toggle className="new nav-link" href="#!" variant="">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="header-icon-svgs"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M19 13.586V10c0-3.217-2.185-5.927-5.145-6.742C13.562 2.52 12.846 2 12 2s-1.562.52-1.855 1.258C7.185 4.074 5 6.783 5 10v3.586l-1.707 1.707A.996.996 0 0 0 3 16v2a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-2a.996.996 0 0 0-.293-.707L19 13.586zM19 17H5v-.586l1.707-1.707A.996.996 0 0 0 7 14v-4c0-2.757 2.243-5 5-5s5 2.243 5 5v4c0 .266.105.52.293.707L19 16.414V17zm-7 5a2.98 2.98 0 0 0 2.818-2H9.182A2.98 2.98 0 0 0 12 22z" />
-                    </svg>
-                    <span className=" pulse"></span>
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu className="slid1">
-                    <div className="menu-header-content text-start border-bottom">
-                      <div className="d-flex">
-                        <h6 className="dropdown-title mb-1 tx-15 font-weight-semibold">
-                          Notifications
-                        </h6>
-                        <span className="badge badge-pill badge-warning ms-auto my-auto float-end">
-                          Mark All Read
-                        </span>
-                      </div>
-                      <p className="dropdown-title-text subtext mb-0 op-6 pb-0 tx-12 ">
-                        You have 4 unread Notifications
-                      </p>
-                    </div>
-                    <PerfectScrollbar style={{ height: 280 }}>
-                      <div className="main-notification-list Notification-scroll">
-                        <Link
-                          className="d-flex p-3 border-bottom"
-                          href={`/components/pages/mail/mail/`}
-                        >
-                          <div className="notifyimg bg-pink">
-                            <i className="far fa-folder-open text-white"></i>
-                          </div>
-                          <div className="ms-3">
-                            <h5 className="notification-label mb-1">
-                              New files available
-                            </h5>
-                            <div className="notification-subtext">
-                              10 hour ago
-                            </div>
-                          </div>
-                          <div className="ms-auto">
-                            <i className="las la-angle-right text-end text-muted"></i>
-                          </div>
-                        </Link>
-                        <Link
-                          className="d-flex p-3  border-bottom"
-                          href={`/components/pages/mail/mail/`}
-                        >
-                          <div className="notifyimg bg-purple">
-                            <i className="fab fa-delicious text-white"></i>
-                          </div>
-                          <div className="ms-3">
-                            <h5 className="notification-label mb-1">
-                              Updates Available
-                            </h5>
-                            <div className="notification-subtext">
-                              2 days ago
-                            </div>
-                          </div>
-                          <div className="ms-auto">
-                            <i className="las la-angle-right text-end text-muted"></i>
-                          </div>
-                        </Link>
-                        <Link
-                          className="d-flex p-3 border-bottom"
-                          href={`/components/pages/mail/mail/`}
-                        >
-                          <div className="notifyimg bg-success">
-                            <i className="fa fa-cart-plus text-white"></i>
-                          </div>
-                          <div className="ms-3">
-                            <h5 className="notification-label mb-1">
-                              New Order Received
-                            </h5>
-                            <div className="notification-subtext">
-                              1 hour ago
-                            </div>
-                          </div>
-                          <div className="ms-auto">
-                            <i className="las la-angle-right text-end text-muted"></i>
-                          </div>
-                        </Link>
-                        <Link
-                          className="d-flex p-3 border-bottom"
-                          href={`/components/pages/mail/mail/`}
-                        >
-                          <div className="notifyimg bg-warning">
-                            <i className="far fa-envelope-open text-white"></i>
-                          </div>
-                          <div className="ms-3">
-                            <h5 className="notification-label mb-1">
-                              New review received
-                            </h5>
-                            <div className="notification-subtext">
-                              1 day ago
-                            </div>
-                          </div>
-                          <div className="ms-auto">
-                            <i className="las la-angle-right text-end text-muted"></i>
-                          </div>
-                        </Link>
-                        <Link
-                          className="d-flex p-3 border-bottom"
-                          href={`/components/pages/mail/mail/`}
-                        >
-                          <div className="notifyimg bg-danger">
-                            <i className="fab fa-wpforms text-white"></i>
-                          </div>
-                          <div className="ms-3">
-                            <h5 className="notification-label mb-1">
-                              22 verified registrations
-                            </h5>
-                            <div className="notification-subtext">
-                              2 hour ago
-                            </div>
-                          </div>
-                          <div className="ms-auto">
-                            <i className="las la-angle-right text-end text-muted"></i>
-                          </div>
-                        </Link>
-                        <Link
-                          className="d-flex p-3 border-bottom"
-                          href={`/components/pages/mail/mail/`}
-                        >
-                          <div className="">
-                            <i className="far fa-check-square text-white notifyimg bg-success"></i>
-                          </div>
-                          <div className="ms-3">
-                            <h5 className="notification-label mb-1">
-                              Project has been approved
-                            </h5>
-                            <span className="notification-subtext">
-                              4 hour ago
-                            </span>
-                          </div>
-                          <div className="ms-auto">
-                            <i className="las la-angle-right text-end text-muted"></i>
-                          </div>
-                        </Link>
-                      </div>
-                    </PerfectScrollbar>
-                    <div className="dropdown-footer">
-                      <Link
-                        className="btn btn-primary btn-sm btn-block"
-                        href={`/components/pages/mail/mail/`}
-                      >
-                        VIEW ALL
-                      </Link>
-                    </div>
-                  </Dropdown.Menu>
-                </Dropdown>
+                </li> 
                 <li
                   className="nav-item full-screen fullscreen-button"
                   onClick={Fullscreen}
@@ -1050,27 +240,6 @@ export default function Header() {
                       viewBox="0 0 24 24"
                     >
                       <path d="M5 5h5V3H3v7h2zm5 14H5v-5H3v7h7zm11-5h-2v5h-5v2h7zm-2-4h2V3h-7v2h5z" />
-                    </svg>
-                  </Link>
-                </li>
-                <li
-                  className="dropdown main-header-message right-toggle"
-                  onClick={() => Rightsidebar()}
-                >
-                  <Link
-                    href="#!"
-                    className="new nav-link nav-link pe-0"
-                    data-bs-toggle="sidebar-right"
-                    data-bs-target=".sidebar-right"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="header-icon-svgs"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M4 6h16v2H4zm4 5h12v2H8zm5 5h7v2h-7z" />
                     </svg>
                   </Link>
                 </li>
@@ -1117,12 +286,13 @@ export default function Header() {
                 <Dropdown className=" main-profile-menu nav nav-item nav-link ps-lg-2">
                   <Dropdown.Toggle
                     className="new nav-link profile-user d-flex"
-                    
                     variant=""
                   >
                     <img
                       alt=""
-                      src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/faces/2.jpg`}
+                      src={`${
+                        process.env.NODE_ENV === "production" ? basePath : ""
+                      }/assets/img/faces/2.jpg`}
                       className=""
                     />
                   </Dropdown.Toggle>
@@ -1132,43 +302,39 @@ export default function Header() {
                         <div className="main-img-user">
                           <img
                             alt=""
-                            src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/faces/2.jpg`}
+                            src={`${
+                              process.env.NODE_ENV === "production"
+                                ? basePath
+                                : ""
+                            }/assets/img/faces/2.jpg`}
                             className=""
                           />
                         </div>
                         <div className="ms-3 my-auto">
                           <h6 className="tx-15 font-weight-semibold mb-0">
-                            Teri Dactyl
+                            Berry Numbi
                           </h6>
                           <span className="dropdown-title-text subtext op-6  tx-12">
-                            Premium Member
+                            Curateur
                           </span>
                         </div>
                       </div>
                     </div>
-                    <Link className="dropdown-item" href={`/components/pages/profile/`}>
-                      <i className="far fa-user-circle"></i>Profile
-                    </Link>
-                    <Link className="dropdown-item" href={`/components/pages/mail/chat/`}>
-                      <i className="far fa-smile"></i> chat
-                    </Link>
                     <Link
                       className="dropdown-item"
-                      href={`/components/pages/mail/read-mail/`}
+                      href={`/components/pages/profile/`}
                     >
-                      <i className="far fa-envelope "></i>Inbox
+                      <i className="far fa-user-circle"></i>Mon profile
                     </Link>
-                    <Link className="dropdown-item" href={`/components/pages/mail/mail/`}>
-                      <i className="far fa-comment-dots"></i>Messages
-                    </Link>
+
                     <Link
                       className="dropdown-item"
                       href={`/components/pages/settings/`}
                     >
-                      <i className="far fa-sun"></i> Settings
+                      <i className="far fa-sun"></i> Paramètres
                     </Link>
-                    <Link className="dropdown-item" href="/" >
-                      <i className="far fa-arrow-alt-circle-left"></i> Sign Out
+                    <Link className="dropdown-item" href="/">
+                      <i className="far fa-arrow-alt-circle-left"></i> Se deconnecter
                     </Link>
                   </Dropdown.Menu>
                 </Dropdown>

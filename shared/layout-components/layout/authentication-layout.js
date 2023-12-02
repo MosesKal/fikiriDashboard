@@ -19,7 +19,7 @@ const Authenticationlayout = ({ children }) => {
   return (
     <>
     <Head>
-        <title>Nowa</title>
+        <title>Fikiri|Dashboard</title>
         <meta name="description" content="Spruha" />
         <link rel="icon" href={favicon.src} />
         {/* <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet"></link> */}
