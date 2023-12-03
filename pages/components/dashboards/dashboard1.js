@@ -43,7 +43,6 @@ const Dashboard = () => {
   const [users, setUsers] = useState([]);
   const [isLoadingUsers, setIsLoadingUsers] = useState(false);
 
-
   const [solutions, setSolution] = useState([]);
   const [isLoadingSolution, setIsLoadingSolution] = useState([]);
 
@@ -60,7 +59,7 @@ const Dashboard = () => {
     prepareRow, // Prepare the row (this function needs to be called for each row before getting the row props)
     state,
     setGlobalFilter,
-    page, // use, page or rows
+    page,
     nextPage,
     previousPage,
     canNextPage,
@@ -74,39 +73,38 @@ const Dashboard = () => {
   const { globalFilter, pageIndex, pageSize } = state;
 
   useEffect(() => {
-    axios
-      .get("/auth/profile", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`,
-        },
-      })
-      .then((response) => {
-        localStorage.setItem(
-          "ACCESS_ACCOUNT",
-          JSON.stringify(response.data.data)
-        );
-        localStorage.setItem("status", JSON.stringify({ isLogged: true }));
-        setIsLoadingUsers(true);
-        axios
-          .get("/users", {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`,
-            },
-          })
-          .then((response) => {
-            setUsers(response?.data?.data);
-            setIsLoadingUsers(false);
-          })
-          .catch((e) => {
-            console.log("fechUser failed", e);
-            setIsLoadingUsers(false);
-          });
-      })
-      .catch(() => {
-        setIsLogged(false);
-        location.push("/");
-      });
-    setIsLoadingUsers(false);
+    const status = JSON.parse(localStorage.getItem("STATUS_ACCOUNT"));
+    if (status.authenticate) {
+      const fetchUsers = async () => {
+        try{
+          setIsLoadingUsers(true)
+          const usersResponse = await axios.get("/users");
+          setUsers(usersResponse?.data?.data);
+          setIsLoadingUsers(false);
+        }catch (error){
+          console.log(error)
+          setIsLoadingUsers(false)
+        }
+      }
+
+      const fetchSolutions = async () => {
+        try{
+          setIsLoadingSolution(true)
+          const solutionResponse = await axios.get("/solutions");
+          setSolution(solutionResponse.data.data)
+          setIsLoadingSolution(false)
+        }catch(error){
+          console.log(error)
+          setIsLoadingSolution(false)
+        }
+      }
+
+      fetchUsers ();
+      fetchSolutions ();
+    } else {
+      navigate.push("/");
+    }
+    
   }, []);
 
 
@@ -220,13 +218,15 @@ const Dashboard = () => {
                       <div className="ps-4 pt-4 pe-3 pb-4">
                         <div className="">
                           <h6 className="mb-2 tx-12">
-                            {"Projets en attentes"}
+                            {"Projets soumis"}
                           </h6>
                         </div>
                         <div className="pb-0 mt-0">
                           <div className="d-flex">
                             <h4 className="tx-20 font-weight-semibold mb-2">
-                              20
+                              {
+                                isLoadingSolution === false ? `${solutions.length}` : "0"
+                              }
                             </h4>
                           </div>
                           {/* <p className="mb-0 tx-12 text-muted">
@@ -241,7 +241,7 @@ const Dashboard = () => {
                     </div>
                     <div className="col-4">
                       <div className="circle-icon bg-info-transparent text-center align-self-center overflow-hidden">
-                        <i className="fe fe-dollar-sign tx-16 text-info"></i>
+                        <i class="bi bi-card-heading tx-16 text-info"></i>
                       </div>
                     </div>
                   </Row>
@@ -399,7 +399,7 @@ const Dashboard = () => {
                   <Card.Body className="p-0 customers mt-1">
                     <div className="list-group list-lg-group list-group-flush">
                       {isLoadingUsers === false &&
-                        users.slice((-2)).map((user) => (
+                        users.slice(-2).map((user) => (
                           <Link href="" className="border-0" key={user.id}>
                             <div className="list-group-item list-group-item-action border-0">
                               <div className="media mt-0">
@@ -415,7 +415,7 @@ const Dashboard = () => {
                                         {user.name}
                                       </h5>
                                       <p className="mb-0 tx-12 text-muted">
-                                        Num Tel: {user.phoneNumber}
+                                        mail: {user.email}
                                       </p>
                                     </div>
                                     {/* <span className="ms-auto wd-45p tx-14">

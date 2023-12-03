@@ -20,13 +20,11 @@ export default function Home() {
     }
 
     if (
-      localStorage.getItem("ACCESS_TOKEN") &&
       localStorage.getItem("ACCESS_ACCOUNT") &&
-      localStorage.getItem("status")
+      localStorage.getItem("STATUS_ACCOUNT")
     ) {
-      localStorage.removeItem("ACCESS_TOKEN")
-      localStorage.removeItem("ACCESS_ACCOUNT")
-      localStorage.removeItem("status")
+      localStorage.removeItem("ACCESS_ACCOUNT");
+      localStorage.removeItem("STATUS_ACCOUNT");
     }
 
     return () => {
@@ -63,10 +61,17 @@ export default function Home() {
 
       const response = await axios.post(LOGIN_URI, JSON.stringify(data));
 
-      if (response.data.data.accessToken) {
+      if (response.data.data) {
         toast.success("Connexion réussie ");
 
-        localStorage.setItem("ACCESS_TOKEN", response.data.data.accessToken);
+        localStorage.setItem(
+          "ACCESS_ACCOUNT",
+          JSON.stringify(response.data.data)
+        );
+        localStorage.setItem(
+          "STATUS_ACCOUNT",
+          JSON.stringify({ authenticate: true })
+        );
 
         setIsLoading(false);
         setTimeout(() => {
@@ -75,6 +80,7 @@ export default function Home() {
       }
     } catch (e) {
       toast.error(e?.response?.data?.message);
+      setIsLoading(false);
     } finally {
       setIsLoading(false);
     }
