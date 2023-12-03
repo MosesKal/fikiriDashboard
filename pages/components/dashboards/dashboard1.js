@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Seo from "@/shared/layout-components/seo/seo";
 
@@ -28,9 +28,7 @@ import {
   GlobalFilter,
 } from "../../../shared/data/dashboards/dashboards1";
 
-
 const Dashboard = () => {
-
   const tableInstance = useTable(
     {
       columns: COLUMNS,
@@ -42,6 +40,9 @@ const Dashboard = () => {
   );
 
   let navigate = useRouter();
+  const [users, setUsers] = useState([]);
+  const [isLoadingUsers, setIsLoadingUsers] = useState(true);
+  const [lastedUsers, setLastedUsers] = useState();
 
   const FormSize = [
     { value: "5", label: "Show 5" },
@@ -77,13 +78,34 @@ const Dashboard = () => {
         },
       })
       .then((response) => {
-        localStorage.setItem("ACCESS_ACCOUNT", JSON.stringify(response.data.data));
-        localStorage.setItem("status", JSON.stringify({isLogged : true}))
+        localStorage.setItem(
+          "ACCESS_ACCOUNT",
+          JSON.stringify(response.data.data)
+        );
+        localStorage.setItem("status", JSON.stringify({ isLogged: true }));
+
+        axios
+          .get("/users", {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`,
+            },
+          })
+          .then((response) => {
+            setUsers(response?.data?.data);
+          })
+          .catch((e) => {
+            console.log("fechUser failed", e);
+          });
       })
       .catch(() => {
         setIsLogged(false);
         location.push("/");
       });
+    setIsLoadingUsers(false);
+
+    if (!isLoadingUsers) {
+      setLastedUsers(users.slice(-2));
+    }
   }, []);
 
   return (
@@ -160,12 +182,14 @@ const Dashboard = () => {
                     <div className="col-8">
                       <div className="ps-4 pt-4 pe-3 pb-4">
                         <div className="">
-                          <h6 className="mb-2 tx-12 ">{"Projets validés"}</h6>
+                          <h6 className="mb-2 tx-12 ">{"Utilisateurs"}</h6>
                         </div>
                         <div className="pb-0 mt-0">
                           <div className="d-flex">
                             <h4 className="tx-20 font-weight-semibold mb-2">
-                              50
+                              {isLoadingUsers === false
+                                ? `${users.length}`
+                                : "0"}
                             </h4>
                           </div>
                           {/* <p className="mb-0 tx-12 text-muted">
@@ -180,7 +204,8 @@ const Dashboard = () => {
                     </div>
                     <div className="col-4">
                       <div className="circle-icon bg-primary-transparent text-center align-self-center overflow-hidden">
-                        <i className="fe fe-shopping-bag tx-16 text-primary"></i>
+                        {/* <i className="fe fe-shopping-bag tx-16 text-primary"></i> */}
+                        <i className="bi bi-people-fill tx-16 text-primary"></i>
                       </div>
                     </div>
                   </Row>
@@ -371,66 +396,39 @@ const Dashboard = () => {
                   </Card.Header>
                   <Card.Body className="p-0 customers mt-1">
                     <div className="list-group list-lg-group list-group-flush">
-                      <Link href="#!" className="border-0">
-                        <div className="list-group-item list-group-item-action border-0">
-                          <div className="media mt-0">
-                            <img
-                              className="avatar-lg rounded-circle me-3 my-auto shadow"
-                              src={"../../../assets/img/faces/2.jpg"}
-                              alt=""
-                            />
-                            <div className="media-body">
-                              <div className="d-flex align-items-center">
-                                <div className="mt-0">
-                                  <h5 className="mb-1 tx-13 font-weight-sembold text-dark">
-                                    Samantha Melon
-                                  </h5>
-                                  <p className="mb-0 tx-12 text-muted">
-                                    User ID: #1234
-                                  </p>
+                      {lastedUsers !== undefined &&
+                        lastedUsers.map((user) => (
+                          <Link href="#!" className="border-0" key={user.id}>
+                            <div className="list-group-item list-group-item-action border-0">
+                              <div className="media mt-0">
+                                <img
+                                  className="avatar-lg rounded-circle me-3 my-auto shadow"
+                                  src={"../../../assets/img/faces/2.jpg"}
+                                  alt=""
+                                />
+                                <div className="media-body">
+                                  <div className="d-flex align-items-center">
+                                    <div className="mt-0">
+                                      <h5 className="mb-1 tx-13 font-weight-sembold text-dark">
+                                        {user.name}
+                                      </h5>
+                                      <p className="mb-0 tx-12 text-muted">
+                                        Num Tel: {user.phoneNumber}
+                                      </p>
+                                    </div>
+                                    {/* <span className="ms-auto wd-45p tx-14">
+                                      <span className="float-end badge badge-success-transparent">
+                                        <span className="op-7 text-success font-weight-semibold">
+                                          paid
+                                        </span>
+                                      </span>
+                                    </span> */}
+                                  </div>
                                 </div>
-                                <span className="ms-auto wd-45p tx-14">
-                                  <span className="float-end badge badge-success-transparent">
-                                    <span className="op-7 text-success font-weight-semibold">
-                                      paid
-                                    </span>
-                                  </span>
-                                </span>
                               </div>
                             </div>
-                          </div>
-                        </div>
-                      </Link>
-                      <Link href="#!" className="border-0">
-                        <div className="list-group-item list-group-item-action border-0">
-                          <div className="media mt-0">
-                            <img
-                              className="avatar-lg rounded-circle me-3 my-auto shadow"
-                              src={"../../../assets/img/faces/1.jpg"}
-                              alt=""
-                            />
-                            <div className="media-body">
-                              <div className="d-flex align-items-center">
-                                <div className="mt-1">
-                                  <h5 className="mb-1 tx-13 font-weight-sembold text-dark">
-                                    Allie Grater
-                                  </h5>
-                                  <p className="mb-0 tx-12 text-muted">
-                                    User ID: #1234
-                                  </p>
-                                </div>
-                                <span className="ms-auto wd-45p tx-14">
-                                  <span className="float-end badge badge-danger-transparent ">
-                                    <span className="op-7 text-danger font-weight-semibold">
-                                      Pending
-                                    </span>
-                                  </span>
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
+                          </Link>
+                        ))}
                     </div>
                   </Card.Body>
                 </Card>
@@ -647,3 +645,23 @@ const Dashboard = () => {
 Dashboard.layout = "Contentlayout";
 
 export default Dashboard;
+
+/**
+ * 
+ * [
+    {
+        "id": 44,
+        "email": "mapi.muhesi@gmail.com",
+        "phoneNumber": "+243891739416",
+        "address": "89, BENI. KATINDO G. GOMA",
+        "name": "MAPIRIMOJA CHRISTIAN"
+    },
+    {
+        "id": 45,
+        "email": "elviskankola1@gmail.com",
+        "phoneNumber": "0973112293",
+        "address": "Lubumbashi, malela, Rdc ",
+        "name": "Kankola"
+    }
+]
+ */
