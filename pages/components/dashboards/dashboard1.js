@@ -44,7 +44,10 @@ const Dashboard = () => {
   const [isLoadingUsers, setIsLoadingUsers] = useState(false);
 
   const [solutions, setSolution] = useState([]);
-  const [isLoadingSolution, setIsLoadingSolution] = useState([]);
+  const [isLoadingSolution, setIsLoadingSolution] = useState(false);
+
+  const [thematique, setThematique] = useState([]);
+  const [isLoadingThematique, setIsLoadingThematique] = useState(false);
 
   const FormSize = [
     { value: "5", label: "Show 5" },
@@ -99,8 +102,22 @@ const Dashboard = () => {
         }
       }
 
+      const fetchThematique = async () => {
+        try{
+          setIsLoadingThematique(true)
+          const thematiqueResponse = await axios.get("/thematics");
+          setThematique(thematiqueResponse.data.data)
+          setIsLoadingThematique(false)
+        }catch(error){
+          console.log(error)
+          setIsLoadingThematique(false)
+        }
+      }
+
       fetchUsers ();
       fetchSolutions ();
+      fetchThematique();
+
     } else {
       navigate.push("/");
     }
@@ -435,45 +452,46 @@ const Dashboard = () => {
                   </Card.Body>
                 </Card>
               </Col>
-              <Col lg={12} xl={6}>
-                <Card>
-                  <Card.Header className="pb-3">
-                    <h3 className="card-title mb-2">MAIN TASKS</h3>
+              <Col sm={12} lg={12} xl={6}>
+                <Card className="card overflow-hidden">
+                  <Card.Header className=" pb-1">
+                    <h3 className="card-title mb-2">{"Thématiques"}</h3>
                   </Card.Header>
                   <Card.Body className="p-0 customers mt-1">
-                    <div className="">
-                      <label className="p-2 d-flex">
-                        <span className="check-box mb-0 ms-2">
-                          <span className="ckbox">
-                            <input type="checkbox" />
-                            <span></span>
-                          </span>
-                        </span>
-                        <span className="mx-3 my-auto">
-                          accurate information at any given point.
-                        </span>
-                        <span className="ms-auto">
-                          <span className="badge badge-primary-transparent font-weight-semibold px-2 py-1 tx-11 me-2">
-                            Today
-                          </span>
-                        </span>
-                      </label>
-                      <label className="p-2 mt-2 d-flex">
-                        <span className="check-box mb-0 ms-2">
-                          <span className="ckbox">
-                            <input type="checkbox" />
-                            <span></span>
-                          </span>
-                        </span>
-                        <span className="mx-3 my-auto">
-                          sharing the information with clients or stakeholders.
-                        </span>
-                        <span className="ms-auto">
-                          <span className="badge badge-primary-transparent font-weight-semibold px-2 py-1 tx-11 me-2">
-                            Today
-                          </span>
-                        </span>
-                      </label>
+                    <div className="list-group list-lg-group list-group-flush">
+                      {isLoadingThematique === false &&
+                        thematique.map((thematiqueOcc) => (
+                          <Link href="" className="border-0" key={thematiqueOcc.id}>
+                            <div className="list-group-item list-group-item-action border-0">
+                              <div className="media mt-0">
+                                <img
+                                  className="avatar-lg rounded-circle me-3 my-auto shadow"
+                                  src={"../../../assets/img/faces/2.jpg"}
+                                  alt=""
+                                />
+                                <div className="media-body">
+                                  <div className="d-flex align-items-center">
+                                    <div className="mt-0">
+                                      <h5 className="mb-1 tx-13 font-weight-sembold text-dark">
+                                        {thematiqueOcc.name}
+                                      </h5>
+                                      <p className="mb-0 tx-12 text-muted">
+                                        ID: {thematiqueOcc.id}
+                                      </p>
+                                    </div>
+                                    {/* <span className="ms-auto wd-45p tx-14">
+                                      <span className="float-end badge badge-success-transparent">
+                                        <span className="op-7 text-success font-weight-semibold">
+                                          paid
+                                        </span>
+                                      </span>
+                                    </span> */}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </Link>
+                        ))}
                     </div>
                   </Card.Body>
                 </Card>
