@@ -5,9 +5,7 @@ import store from "../../redux/store/store";
 import dynamic from "next/dynamic";
 import Rightside from "../right-sidebar/right-sidebar";
 import TabToTop from "../tab-to-top/tab-to-top";
-import { useRouter } from "next/router";
 import Head from "next/head";
-import { ContextProvider } from "@/pages/contexts/authContext";
 import favicon from "../../../public/assets/img/brand/favicon.png";
 const Header = dynamic(() => import("../header/header"), { ssr: false });
 const Switcher = dynamic(() => import("../switcher/switcher"), { ssr: false });
@@ -59,7 +57,6 @@ const Contentlayout = ({ children }) => {
       </Head>
 
       <Provider store={store}>
-        <ContextProvider>
           <div className="horizontalMenucontainer">
             <TabToTop />
             <div className="page">
@@ -84,7 +81,6 @@ const Contentlayout = ({ children }) => {
               <Footer />
             </div>
           </div>
-        </ContextProvider>
       </Provider>
     </>
   );

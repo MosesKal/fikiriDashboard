@@ -6,7 +6,6 @@ const DataTablesCom = dynamic(
   { ssr: false }
 );
 
-import { useAuthContext } from "@/pages/contexts/authContext";
 import {useRouter} from "next/router"
 
 const Thematique = () => (

@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 import Header from "../header/header2";
 const Switcher = dynamic(() => import("../switcher/switcher"), { ssr: false });
 const Sidebar = dynamic(() => import("../sidebar/sidebar"), { ssr: false });
-import { ContextProvider } from "@/pages/contexts/authContext";
 
 const SwitcherLayout = ({ children }) => {
   let firstAdd = ()=>{
@@ -47,7 +46,6 @@ const SwitcherLayout = ({ children }) => {
   return (
     <>
       <Provider store={store}>
-        <ContextProvider>
         <div className="horizontalMenucontainer">
               <TabToTop />
         <div className="page">
@@ -69,7 +67,6 @@ const SwitcherLayout = ({ children }) => {
         <Footer />
         </div>
         </div>
-        </ContextProvider>
       </Provider>
     </>
   );

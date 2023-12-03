@@ -4,7 +4,7 @@ import Landingpagelayout from "@/shared/layout-components/layout/landingpage-lay
 import Switcherlayout from "@/shared/layout-components/layout/switcher-layout";
 import Authenticationlayout from "@/shared/layout-components/layout/authentication-layout";
 import SSRProvider from "react-bootstrap/SSRProvider";
-import { ContextProvider } from "./contexts/authContext";
+
 
 const layouts = {
   Contentlayout: Contentlayout,
@@ -18,11 +18,9 @@ function MyApp({ Component, pageProps }) {
     ((pageProps) => <Component>{pageProps}</Component>);
   return (
     <Layout>
-      <ContextProvider>
         <SSRProvider>
           <Component {...pageProps} />
         </SSRProvider>
-      </ContextProvider>
     </Layout>
   );
 }

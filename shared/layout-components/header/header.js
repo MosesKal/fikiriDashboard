@@ -14,14 +14,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Delete } from "../../redux/actions/action";
 import ProductService from "../../services/ProductService";
 import { useRouter } from "next/router";
-import { useAuthContext } from "@/pages/contexts/authContext";
+
 
 export default function Header() {
 
   let { basePath } = useRouter();
 
   const [Lang, setLang] = React.useState(false);
-  const {account} = useAuthContext();
+  const [account, setAccount] = React.useState();
 
 
   function Fullscreen() {
@@ -126,6 +126,12 @@ export default function Header() {
     let path = `/`;
     navigate(path);
   };
+
+  React.useEffect(()=>{
+
+     setAccount(JSON.parse(localStorage.getItem("ACCESS_ACCOUNT")))
+
+  }, [])
 
 
   return (

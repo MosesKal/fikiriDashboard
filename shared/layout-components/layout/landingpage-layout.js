@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { ContextProvider } from "@/pages/contexts/authContext";
 
 const Landingpagelayout = ({ children }) => {
   const Add = () => {
@@ -18,9 +17,7 @@ const Landingpagelayout = ({ children }) => {
   }, []);
 
   return (
-    <ContextProvider>
       <div>{children}</div>
-    </ContextProvider>
   );
 };
 

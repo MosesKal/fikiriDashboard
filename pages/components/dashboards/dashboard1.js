@@ -28,10 +28,8 @@ import {
   GlobalFilter,
 } from "../../../shared/data/dashboards/dashboards1";
 
-import { useAuthContext } from "@/pages/contexts/authContext";
 
 const Dashboard = () => {
-  const { setIsLogged, storeAccount } = useAuthContext();
 
   const tableInstance = useTable(
     {
@@ -70,7 +68,6 @@ const Dashboard = () => {
   } = tableInstance;
 
   const { globalFilter, pageIndex, pageSize } = state;
-  // const { isLogged } = useAuthContext();
 
   useEffect(() => {
     axios
@@ -80,8 +77,8 @@ const Dashboard = () => {
         },
       })
       .then((response) => {
-        setIsLogged(true);
-        storeAccount(response.data.data);
+        localStorage.setItem("ACCESS_ACCOUNT", JSON.stringify(response.data.data));
+        localStorage.setItem("status", JSON.stringify({isLogged : true}))
       })
       .catch(() => {
         setIsLogged(false);

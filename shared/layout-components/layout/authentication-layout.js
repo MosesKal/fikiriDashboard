@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import favicon from "../../../public/assets/img/brand/favicon.png";
-import { ContextProvider } from "@/pages/contexts/authContext";
+
+
 // const Customswitcher = dynamic(() => import("../../../shared/layout-components/switcher/Customswitcher"), {ssr: false,});
 
 const Authenticationlayout = ({ children }) => {
 
-  const { isLogged } = useAuthContext();
 
   useEffect(() => {
     if (document.body) {
@@ -30,11 +30,10 @@ const Authenticationlayout = ({ children }) => {
         <meta name="description" content="Spruha" />
         <link rel="icon" href={favicon.src} />
       </Head>
-      <ContextProvider>
+  
       <div>
         {children}
       </div>
-      </ContextProvider>
       {/* <Customswitcher /> */}
     </>
   );

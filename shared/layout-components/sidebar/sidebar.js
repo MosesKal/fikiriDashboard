@@ -5,7 +5,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import Link from "next/link"
 import { useRouter } from "next/router";
 let history = [];
-import axios from "@/pages/api/axios";
+
 
 
 const Sidebar = () => {

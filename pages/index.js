@@ -9,17 +9,24 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Seo from "@/shared/layout-components/seo/seo";
 
-
 const LOGIN_URI = "/auth/login";
 
 export default function Home() {
-
-
   useEffect(() => {
     if (document.body) {
       document
         .querySelector("body")
         .classList.add("ltr", "error-page1", "bg-primary");
+    }
+
+    if (
+      localStorage.getItem("ACCESS_TOKEN") &&
+      localStorage.getItem("ACCESS_ACCOUNT") &&
+      localStorage.getItem("status")
+    ) {
+      localStorage.removeItem("ACCESS_TOKEN")
+      localStorage.removeItem("ACCESS_ACCOUNT")
+      localStorage.removeItem("status")
     }
 
     return () => {
@@ -47,7 +54,6 @@ export default function Home() {
     let path = `/components/dashboards/dashboard1`;
     navigate.push(path);
   };
-
 
   const ReactLogin = async (e) => {
     e.preventDefault();
