@@ -160,7 +160,7 @@ export default function Home() {
                                       ? "Connexion en cours..."
                                       : "Se connecter"}
                                   </Button>
-                                  <div className="mt-4 d-flex text-center justify-content-center mb-2">
+                                  {/* <div className="mt-4 d-flex text-center justify-content-center mb-2">
                                     <Link
                                       href="https://www.facebook.com/"
                                       target="_blank"
@@ -204,7 +204,7 @@ export default function Home() {
                                         <i className="bx bxl-instagram tx-18 tx-prime"></i>{" "}
                                       </span>
                                     </Link>
-                                  </div>
+                                  </div> */}
                                 </Form>
                               </div>
                             </div>
