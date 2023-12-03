@@ -41,8 +41,11 @@ const Dashboard = () => {
 
   let navigate = useRouter();
   const [users, setUsers] = useState([]);
-  const [isLoadingUsers, setIsLoadingUsers] = useState(true);
-  const [lastedUsers, setLastedUsers] = useState();
+  const [isLoadingUsers, setIsLoadingUsers] = useState(false);
+
+
+  const [solutions, setSolution] = useState([]);
+  const [isLoadingSolution, setIsLoadingSolution] = useState([]);
 
   const FormSize = [
     { value: "5", label: "Show 5" },
@@ -83,7 +86,7 @@ const Dashboard = () => {
           JSON.stringify(response.data.data)
         );
         localStorage.setItem("status", JSON.stringify({ isLogged: true }));
-
+        setIsLoadingUsers(true);
         axios
           .get("/users", {
             headers: {
@@ -92,9 +95,11 @@ const Dashboard = () => {
           })
           .then((response) => {
             setUsers(response?.data?.data);
+            setIsLoadingUsers(false);
           })
           .catch((e) => {
             console.log("fechUser failed", e);
+            setIsLoadingUsers(false);
           });
       })
       .catch(() => {
@@ -102,11 +107,8 @@ const Dashboard = () => {
         location.push("/");
       });
     setIsLoadingUsers(false);
-
-    if (!isLoadingUsers) {
-      setLastedUsers(users.slice(-2));
-    }
   }, []);
+
 
   return (
     <>
@@ -396,9 +398,9 @@ const Dashboard = () => {
                   </Card.Header>
                   <Card.Body className="p-0 customers mt-1">
                     <div className="list-group list-lg-group list-group-flush">
-                      {lastedUsers !== undefined &&
-                        lastedUsers.map((user) => (
-                          <Link href="#!" className="border-0" key={user.id}>
+                      {isLoadingUsers === false &&
+                        users.slice((-2)).map((user) => (
+                          <Link href="" className="border-0" key={user.id}>
                             <div className="list-group-item list-group-item-action border-0">
                               <div className="media mt-0">
                                 <img
@@ -645,23 +647,3 @@ const Dashboard = () => {
 Dashboard.layout = "Contentlayout";
 
 export default Dashboard;
-
-/**
- * 
- * [
-    {
-        "id": 44,
-        "email": "mapi.muhesi@gmail.com",
-        "phoneNumber": "+243891739416",
-        "address": "89, BENI. KATINDO G. GOMA",
-        "name": "MAPIRIMOJA CHRISTIAN"
-    },
-    {
-        "id": 45,
-        "email": "elviskankola1@gmail.com",
-        "phoneNumber": "0973112293",
-        "address": "Lubumbashi, malela, Rdc ",
-        "name": "Kankola"
-    }
-]
- */
