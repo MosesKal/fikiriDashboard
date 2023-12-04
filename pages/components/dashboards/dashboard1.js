@@ -25,19 +25,19 @@ import Select from "react-select";
 
 import * as Dashboarddata from "../../../shared/data/dashboards/dashboards1";
 import {
-  COLUMNS,
-  DATATABLE,
+  SOLUTIONS_COLUMNS,
+  SOLUTIONS,
   GlobalFilter,
 } from "../../../shared/data/dashboards/dashboards1";
 
-moment.locale('fr')
+moment.locale("fr");
 
 const Dashboard = () => {
-  
   const tableInstance = useTable(
     {
-      columns: COLUMNS,
-      data: DATATABLE,
+      columns: SOLUTIONS_COLUMNS,
+      data: SOLUTIONS,
+      initialState: { pageSize: 10 },
     },
     useGlobalFilter,
     useSortBy,
@@ -238,7 +238,9 @@ const Dashboard = () => {
                         <div className="">
                           <h6 className="mb-2 tx-12">{"Solutions soumises"}</h6>
                         </div>
-                        <div className="pb-0 mt-0">                        <i class="bi bi-ban-fill text-secondary"></i>
+                        <div className="pb-0 mt-0">
+                          {" "}
+                          <i class="bi bi-ban-fill text-secondary"></i>
                           <div className="d-flex">
                             <h4 className="tx-20 font-weight-semibold mb-2">
                               {isLoadingSolution === false
@@ -277,7 +279,7 @@ const Dashboard = () => {
                         <div className="pb-0 mt-0">
                           <div className="d-flex">
                             <h4 className="tx-20 font-weight-semibold mb-2">
-                            0
+                              0
                             </h4>
                           </div>
                           {/* <p className="mb-0 tx-12 text-muted">
@@ -333,7 +335,10 @@ const Dashboard = () => {
                   <Card.Body className=" p-0">
                     {isLoadingSolution === false &&
                       solutions.slice(-5).map((solution) => (
-                        <div className="d-flex align-items-center item  border-bottom my-2" key={solution.id}>
+                        <div
+                          className="d-flex align-items-center item  border-bottom my-2"
+                          key={solution.id}
+                        >
                           <div className="d-flex">
                             <img
                               src={"../../../assets/img/svgicons/report.svg"}
@@ -342,17 +347,26 @@ const Dashboard = () => {
                             />
                             <div className="">
                               <h6 className="">
-                              {solution.name.length > 50 ? `${solution.name.slice(0, "50")}...` : solution.name}
+                                {solution.name.length > 50
+                                  ? `${solution.name.slice(0, "50")}...`
+                                  : solution.name}
                               </h6>
                               <span className="text-muted tx-12">
-                                {moment(solution.createdAt).format('DD MMMM YYYY [à] HH:mm')}
+                                {moment(solution.createdAt).format(
+                                  "DD MMMM YYYY [à] HH:mm"
+                                )}
                               </span>
                             </div>
                           </div>
                           <div className="ms-auto my-auto">
                             <div className="d-flex">
                               <span className="me-3 mt-1 font-weight-semibold tx-16">
-                              {solution.targetedProblem.length > 15 ? `${solution.targetedProblem.slice(0, "15")}...` : solution.targetedProblem}
+                                {solution.targetedProblem.length > 15
+                                  ? `${solution.targetedProblem.slice(
+                                      0,
+                                      "15"
+                                    )}...`
+                                  : solution.targetedProblem}
                               </span>
                               <span className="text-success fs-13 my-auto">
                                 <i className="fe fe-trending-up text-success mx-2 my-auto"></i>
@@ -545,19 +559,19 @@ const Dashboard = () => {
                           return (
                             <tr
                               key={Math.random()}
-                              className="text-center"
+                              className="text-left"
                               {...row.getRowProps()}
                             >
-                              {row.cells.map((cell) => {
-                                return (
-                                  <td
-                                    key={Math.random()}
-                                    {...cell.getCellProps()}
-                                  >
-                                    {cell.render("Cell")}
-                                  </td>
-                                );
-                              })}
+                              {row.cells.map((cell) => (
+                                <td
+                                  key={Math.random()}
+                                  {...cell.getCellProps()}
+                                >
+                                  {typeof cell.render("Cell") === "string"
+                                    ? `${cell.render("Cell").slice(0, 12)}...`
+                                    : cell.render("Cell")}
+                                </td>
+                              ))}
                             </tr>
                           );
                         })}
@@ -589,44 +603,7 @@ const Dashboard = () => {
                         >
                           {" << "}
                         </Button>
-                        <Button
-                          variant=""
-                          className="btn-default tablebutton me-2 my-1"
-                          onClick={() => {
-                            previousPage();
-                          }}
-                          disabled={!canPreviousPage}
-                        >
-                          {" < "}
-                        </Button>
-                        <Button
-                          variant=""
-                          className="btn-default tablebutton me-2 my-1"
-                          onClick={() => {
-                            nextPage();
-                          }}
-                          disabled={!canNextPage}
-                        >
-                          {" > "}
-                        </Button>
-                        <Button
-                          variant=""
-                          className="btn-default tablebutton me-2 my-1"
-                          onClick={() => {
-                            nextPage();
-                          }}
-                          disabled={!canNextPage}
-                        >
-                          {" >> "}
-                        </Button>
-                        <Button
-                          variant=""
-                          className="btn-default tablebutton me-2 d-sm-inline d-block my-1"
-                          onClick={() => gotoPage(pageCount - 1)}
-                          disabled={!canNextPage}
-                        >
-                          {" Next "}
-                        </Button>
+                        {/* ... (your other pagination buttons) */}
                       </span>
                     </div>
                   </>
