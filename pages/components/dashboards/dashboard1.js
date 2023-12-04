@@ -6,6 +6,8 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
+import moment from "moment";
+
 import { useRouter } from "next/router";
 
 import axios from "@/pages/api/axios";
@@ -27,6 +29,8 @@ import {
   DATATABLE,
   GlobalFilter,
 } from "../../../shared/data/dashboards/dashboards1";
+
+moment.locale('fr')
 
 const Dashboard = () => {
   const tableInstance = useTable(
@@ -79,51 +83,48 @@ const Dashboard = () => {
     const status = JSON.parse(localStorage.getItem("STATUS_ACCOUNT"));
     if (status.authenticate) {
       const fetchUsers = async () => {
-        try{
-          setIsLoadingUsers(true)
+        try {
+          setIsLoadingUsers(true);
           const usersResponse = await axios.get("/users");
           setUsers(usersResponse?.data?.data);
           setIsLoadingUsers(false);
-        }catch (error){
-          console.log(error)
-          setIsLoadingUsers(false)
+        } catch (error) {
+          console.log(error);
+          setIsLoadingUsers(false);
         }
-      }
+      };
 
       const fetchSolutions = async () => {
-        try{
-          setIsLoadingSolution(true)
+        try {
+          setIsLoadingSolution(true);
           const solutionResponse = await axios.get("/solutions");
-          setSolution(solutionResponse.data.data)
-          setIsLoadingSolution(false)
-        }catch(error){
-          console.log(error)
-          setIsLoadingSolution(false)
+          setSolution(solutionResponse.data.data);
+          setIsLoadingSolution(false);
+        } catch (error) {
+          console.log(error);
+          setIsLoadingSolution(false);
         }
-      }
+      };
 
       const fetchThematique = async () => {
-        try{
-          setIsLoadingThematique(true)
+        try {
+          setIsLoadingThematique(true);
           const thematiqueResponse = await axios.get("/thematics");
-          setThematique(thematiqueResponse.data.data)
-          setIsLoadingThematique(false)
-        }catch(error){
-          console.log(error)
-          setIsLoadingThematique(false)
+          setThematique(thematiqueResponse.data.data);
+          setIsLoadingThematique(false);
+        } catch (error) {
+          console.log(error);
+          setIsLoadingThematique(false);
         }
-      }
+      };
 
-      fetchUsers ();
-      fetchSolutions ();
+      fetchUsers();
+      fetchSolutions();
       fetchThematique();
-
     } else {
       navigate.push("/");
     }
-    
   }, []);
-
 
   return (
     <>
@@ -234,16 +235,14 @@ const Dashboard = () => {
                     <div className="col-8">
                       <div className="ps-4 pt-4 pe-3 pb-4">
                         <div className="">
-                          <h6 className="mb-2 tx-12">
-                            {"Projets soumis"}
-                          </h6>
+                          <h6 className="mb-2 tx-12">{"Solutions soumises"}</h6>
                         </div>
                         <div className="pb-0 mt-0">
                           <div className="d-flex">
                             <h4 className="tx-20 font-weight-semibold mb-2">
-                              {
-                                isLoadingSolution === false ? `${solutions.length}` : "0"
-                              }
+                              {isLoadingSolution === false
+                                ? `${solutions.length}`
+                                : "0"}
                             </h4>
                           </div>
                           {/* <p className="mb-0 tx-12 text-muted">
@@ -271,13 +270,13 @@ const Dashboard = () => {
                       <div className="ps-4 pt-4 pe-3 pb-4">
                         <div className="">
                           <h6 className="mb-2 tx-12">
-                            {"Projets non validés"}
+                            {"Solutions non validées"}
                           </h6>
                         </div>
                         <div className="pb-0 mt-0">
                           <div className="d-flex">
                             <h4 className="tx-20 font-weight-semibold mb-2">
-                              30
+                            0
                             </h4>
                           </div>
                           {/* <p className="mb-0 tx-12 text-muted">
@@ -305,13 +304,13 @@ const Dashboard = () => {
                       <div className="ps-4 pt-4 pe-3 pb-4">
                         <div className="">
                           <h6 className="mb-2 tx-12">
-                            {"Projets Cartographiés"}
+                            {"Solutions Cartographiées"}
                           </h6>
                         </div>
                         <div className="pb-0 mt-0">
                           <div className="d-flex">
                             <h4 className="tx-22 font-weight-semibold mb-2">
-                              50
+                              0
                             </h4>
                           </div>
                         </div>
@@ -328,65 +327,40 @@ const Dashboard = () => {
               <Col xl={12} lg={12} md={12} xs={12}>
                 <Card>
                   <Card.Header className="pb-1">
-                    <h3 className="card-title mb-2">Projets récents</h3>
+                    <h3 className="card-title mb-2">Solutions récentes</h3>
                   </Card.Header>
                   <Card.Body className=" p-0">
-                    <div className="browser-stats">
-                      <div className="d-flex align-items-center item  border-bottom my-2">
-                        <div className="d-flex">
-                          <img
-                            src={"../../../assets/img/svgicons/report.svg"}
-                            alt="img"
-                            className="ht-30 wd-30 me-2"
-                          />
-                          <div className="">
-                            <h6 className="">
-                              {"Mise en place d'un réseau..."}
-                            </h6>
-                            <span className="text-muted tx-12">
-                              JONATHAN KIMBA
-                            </span>
-                          </div>
-                        </div>
-                        <div className="ms-auto my-auto">
+                    {isLoadingSolution === false &&
+                      solutions.slice(-5).map((solution) => (
+                        <div className="d-flex align-items-center item  border-bottom my-2" key={solution.id}>
                           <div className="d-flex">
-                            <span className="me-3 mt-1 font-weight-semibold tx-16">
-                              {"Inclusion financière..."}
-                            </span>
-                            <span className="text-success fs-13 my-auto">
-                              <i className="fe fe-trending-up text-success mx-2 my-auto"></i>
-                            </span>
+                            <img
+                              src={"../../../assets/img/svgicons/report.svg"}
+                              alt="img"
+                              className="ht-30 wd-30 me-2 ms-3"
+                            />
+                            <div className="">
+                              <h6 className="">
+                              {solution.name.length > 50 ? `${solution.name.slice(0, "50")}...` : solution.name}
+                              </h6>
+                              <span className="text-muted tx-12">
+                                {moment(solution.createdAt).format('DD MMMM YYYY [à] HH:mm')}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="ms-auto my-auto">
+                            <div className="d-flex">
+                              <span className="me-3 mt-1 font-weight-semibold tx-16">
+                              {solution.targetedProblem.length > 15 ? `${solution.targetedProblem.slice(0, "15")}...` : solution.targetedProblem}
+                              </span>
+                              <span className="text-success fs-13 my-auto">
+                                <i className="fe fe-trending-up text-success mx-2 my-auto"></i>
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="d-flex align-items-center item  border-bottom my-2">
-                        <div className="d-flex">
-                          <img
-                            src={"../../../assets/img/svgicons/report.svg"}
-                            alt="img"
-                            className="ht-30 wd-30 me-2"
-                          />
-                          <div className="">
-                            <h6 className="">
-                              {"Developpement d'une solution..."}
-                            </h6>
-                            <span className="text-muted tx-12">
-                              {"CHRINOVIC ZIONGO"}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="ms-auto my-auto">
-                          <div className="d-flex">
-                            <span className="me-3 mt-1 font-weight-semibold tx-16">
-                              {"Mécanisation légère agri..."}
-                            </span>
-                            <span className="text-success">
-                              <i className="fe fe-trending-down text-danger mx-2 my-auto"></i>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                      ))}
+                   
                   </Card.Body>
                 </Card>
               </Col>
@@ -416,7 +390,7 @@ const Dashboard = () => {
                   <Card.Body className="p-0 customers mt-1">
                     <div className="list-group list-lg-group list-group-flush">
                       {isLoadingUsers === false &&
-                        users.slice(-2).map((user) => (
+                        users.slice(-4).map((user) => (
                           <Link href="" className="border-0" key={user.id}>
                             <div className="list-group-item list-group-item-action border-0">
                               <div className="media mt-0">
@@ -461,7 +435,11 @@ const Dashboard = () => {
                     <div className="list-group list-lg-group list-group-flush">
                       {isLoadingThematique === false &&
                         thematique.map((thematiqueOcc) => (
-                          <Link href="" className="border-0" key={thematiqueOcc.id}>
+                          <Link
+                            href=""
+                            className="border-0"
+                            key={thematiqueOcc.id}
+                          >
                             <div className="list-group-item list-group-item-action border-0">
                               <div className="media mt-0">
                                 <img
@@ -505,7 +483,7 @@ const Dashboard = () => {
           <Col sm={12} className="col-12">
             <Card>
               <Card.Header>
-                <h4 className="card-title">Projets</h4>
+                <h4 className="card-title">Solutions</h4>
               </Card.Header>
               <Card.Body className="pt-0 example1-table">
                 <div className="table-responsive">
