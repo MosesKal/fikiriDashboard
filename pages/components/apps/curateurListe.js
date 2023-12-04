@@ -7,18 +7,18 @@ const DataTablesCom = dynamic(
   { ssr: false }
 );
 
-import {useRouter} from "next/router"
+import {useRouter} from "next/router";
 
 const CurateurListe = () => {
 
   const navigate = useRouter();
 
-  useEffect(()=>{
-    const status = JSON.parse(localStorage.getItem("status"))
-    if(!status.isLogged){
-      navigate.push("/")
-    }
-  }, [])
+  // useEffect(()=>{
+  //   const status = JSON.parse(localStorage.getItem("status"))
+  //   if(!status.isLogged){
+  //     navigate.push("/")
+  //   }
+  // }, [])
 
   return (
     <>

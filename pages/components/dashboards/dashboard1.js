@@ -33,6 +33,7 @@ import {
 moment.locale('fr')
 
 const Dashboard = () => {
+  
   const tableInstance = useTable(
     {
       columns: COLUMNS,
