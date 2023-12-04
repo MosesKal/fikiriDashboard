@@ -237,7 +237,7 @@ const Dashboard = () => {
                         <div className="">
                           <h6 className="mb-2 tx-12">{"Solutions soumises"}</h6>
                         </div>
-                        <div className="pb-0 mt-0">
+                        <div className="pb-0 mt-0">                        <i class="bi bi-ban-fill text-secondary"></i>
                           <div className="d-flex">
                             <h4 className="tx-20 font-weight-semibold mb-2">
                               {isLoadingSolution === false
@@ -291,7 +291,7 @@ const Dashboard = () => {
                     </div>
                     <div className="col-4">
                       <div className="circle-icon bg-secondary-transparent text-center align-self-center overflow-hidden">
-                        <i className="fe fe-external-link tx-16 text-secondary"></i>
+                        <i class="bi bi-calendar-x text-secondary"></i>
                       </div>
                     </div>
                   </Row>
@@ -360,7 +360,6 @@ const Dashboard = () => {
                           </div>
                         </div>
                       ))}
-                   
                   </Card.Body>
                 </Card>
               </Col>
@@ -493,7 +492,7 @@ const Dashboard = () => {
                         <Select
                           classNamePrefix="selectform"
                           options={FormSize}
-                          placeholder="Select"
+                          placeholder="Selectionner"
                           onChange={(e) => setPageSize(Number(e.value))}
                         />
                       </Form.Group>
