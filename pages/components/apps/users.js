@@ -23,16 +23,16 @@ import Link from "next/link";
 import Select from "react-select";
 import * as Dashboarddata from "../../../shared/data/dashboards/dashboards1";
 import {
-  COLUMNS,
-  DATATABLE,
+  COLUMNS_USERS,
+  USERS,
   GlobalFilter,
-} from "../../../shared/data/dashboards/dashboards1";
+} from "../../../shared/data/dashboards/dataUsers";
 
 const Users = () => {
   const tableInstance = useTable(
     {
-      columns: COLUMNS,
-      data: DATATABLE,
+      columns: COLUMNS_USERS,
+      data: USERS,
     },
     useGlobalFilter,
     useSortBy,
@@ -153,7 +153,7 @@ const Users = () => {
                           return (
                             <tr
                               key={Math.random()}
-                              className="text-center"
+                              className="text-left"
                               {...row.getRowProps()}
                             >
                               {row.cells.map((cell) => {
