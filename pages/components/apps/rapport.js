@@ -9,7 +9,7 @@ const DataTablesCom = dynamic(
 const CurateurListe = () => (
   <>
     <Seo title={"Data Tables"} />
-    <DataTablesCom />
+    
   </>
 );
 
