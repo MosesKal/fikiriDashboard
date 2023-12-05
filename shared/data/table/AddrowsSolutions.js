@@ -6,7 +6,7 @@ export const SavetableSolutions = () => {
   const [modalShow, setModalShow] = React.useState(false);
   const [detailsSolutionId, setDetailsSolutionId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
+  const [itemsPerPage] = useState(10);
 
   const data = [
     {
