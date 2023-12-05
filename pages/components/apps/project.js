@@ -1,20 +1,22 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import Seo from "@/shared/layout-components/seo/seo";
-const DataTablesCom = dynamic(
-  () => import("@/shared/data/table/datatable/dataTableCurrateur"),
+
+const DataTablesSolution = dynamic(
+  () => import("@/shared/data/table/datatable/dataTableSolution"),
   { ssr: false }
 );
 
-const CurateurListe = () => (
+
+const ProjectListe = () => (
   <>
     <Seo title={"Data Tables"} />
-    <DataTablesCom />
+    <DataTablesSolution />
   </>
 );
 
-CurateurListe.propTypes = {};
-CurateurListe.defaultProps = {};
-CurateurListe.layout = "Contentlayout";
+ProjectListe.propTypes = {};
+ProjectListe.defaultProps = {};
+ProjectListe.layout = "Contentlayout";
 
-export default CurateurListe;
+export default ProjectListe;

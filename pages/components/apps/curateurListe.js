@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import Seo from "@/shared/layout-components/seo/seo";
 
 const DataTablesCom = dynamic(
-  () => import("@/shared/data/table/datatable/dataTableCurrateur"),
+  () => import("@/shared/data/table/datatable/dataTableCurrateurs"),
   { ssr: false }
 );
 

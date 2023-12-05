@@ -10,7 +10,6 @@ import {Savetable} from "../Addrows"
 const DataTablesCom = () => {
   return (
     <div className="main-container container-fluid">
-      {/* <!-- breadcrumb --> */}
       <div className="breadcrumb-header justify-content-between">
         <div className="left-content">
           <span className="main-content-title mg-b-0 mg-b-lg-1">
@@ -33,7 +32,6 @@ const DataTablesCom = () => {
         </div>
       </div>
 
-      {/* <!-- Row --> */}
       <Row className=" row-sm">
         <Col lg={12}>
           <Card className="custom-card">
@@ -58,7 +56,6 @@ const DataTablesCom = () => {
           </Card>
         </Col>
       </Row>
-      {/* <!-- End Row --> */}
     </div>
   )
 }
