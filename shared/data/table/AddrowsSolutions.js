@@ -22,6 +22,7 @@ export const SavetableSolutions = () => {
       createdAt: "2023-11-30T18:08:39.563Z",
       updatedAt: "2023-11-30T18:08:39.563Z",
       userId: 1,
+
       thematic: {
         id: 1,
         name: "Transparence et sécurité dans l’artisanat Minier",
